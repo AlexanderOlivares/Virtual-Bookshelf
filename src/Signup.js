@@ -44,6 +44,7 @@ function Signup({ user, isLoggedIn, setIsLoggedIn, setUser }) {
       .createUserWithEmailAndPassword(email, password)
       .then(userCredential => {
         let user = userCredential.user;
+        setUser(email);
         setIsLoggedIn(true);
         console.log(user);
         console.log(isLoggedIn);

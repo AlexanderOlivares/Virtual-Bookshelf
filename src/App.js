@@ -16,7 +16,11 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar user={user} />
+        <Navbar
+          user={user}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+        />
       </div>
       <LandingPage />
       <Signup
