@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
@@ -7,6 +8,9 @@ function LandingPage() {
       <p>
         start a virtual book club with your friends no matter where they are!
       </p>
+      <button>
+        <Link to="/signup">Sign up now!</Link>
+      </button>
     </div>
   );
 }

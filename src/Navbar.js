@@ -1,5 +1,6 @@
 import React from "react";
 import { auth } from "./firebase";
+import { Link } from "react-router-dom";
 
 function Navbar({ setIsLoggedIn, isLoggedIn }) {
   function handleLogout() {
@@ -19,14 +20,23 @@ function Navbar({ setIsLoggedIn, isLoggedIn }) {
 
   return (
     <div>
-      <span style={{ padding: 10 }}>List</span>
-      <span style={{ padding: 10 }}>Profile</span>
+      <span style={{ padding: 10 }}>
+        <Link to="/list">List</Link>
+      </span>
+      <span style={{ padding: 10 }}>
+        <Link to="/search">Search</Link>
+      </span>
+      <span style={{ padding: 10 }}>
+        <Link to="/profile">profile</Link>
+      </span>
       {isLoggedIn ? (
         <button style={{ padding: 5 }} onClick={handleLogout}>
-          sign out
+          <Link to="/">Sign Out</Link>
         </button>
       ) : (
-        <button style={{ padding: 5 }}>sign in</button>
+        <button style={{ padding: 5 }}>
+          <Link to="/signin">Sign in</Link>
+        </button>
       )}
     </div>
   );
