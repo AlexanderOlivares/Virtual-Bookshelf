@@ -1,7 +1,6 @@
 import "./App.css";
 import { useState } from "react";
 import { auth, google } from "./firebase";
-import { v4 as uuidv4 } from "uuid";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
