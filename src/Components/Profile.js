@@ -1,4 +1,5 @@
 import React from "react";
+import Signup from "./Signup";
 
 function Profile({ user, isLoggedIn }) {
   console.log(isLoggedIn);
@@ -11,8 +12,9 @@ function Profile({ user, isLoggedIn }) {
         </div>
       ) : (
         <div>
-          <h3>{"Log in or sign up"}</h3>
-          <p>{"login in to view your profile"}</p>
+          <h3>{"Log in to view your profile"}</h3>
+          <p>{"or sign up with Google"}</p>
+          <Signup />
         </div>
       )}
     </>

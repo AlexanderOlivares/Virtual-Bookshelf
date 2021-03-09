@@ -61,7 +61,7 @@ function App() {
               <Profile user={user} isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/list">
-              <List />
+              <List user={user} isLoggedIn={isLoggedIn}/>
             </Route>
           </Switch>
         </div>

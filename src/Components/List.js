@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {db} from "./firebase"
 import { v4 as uuidv4 } from "uuid";
 
-function List() {
+function List({user, isloggedIn}) {
   const [list, setList] = useState([]);
 
   useEffect(() => {

@@ -21,13 +21,14 @@ function Navbar({ setIsLoggedIn, isLoggedIn }) {
   return (
     <div>
       <span style={{ padding: 10 }}>
+        <Link to="/profile">Home</Link>
+      </span>
+      <span style={{ padding: 10 }}>
         <Link to="/list">List</Link>
       </span>
+      <span>nm</span>
       <span style={{ padding: 10 }}>
         <Link to="/search">Search</Link>
-      </span>
-      <span style={{ padding: 10 }}>
-        <Link to="/profile">profile</Link>
       </span>
       {isLoggedIn ? (
         <button style={{ padding: 5 }} onClick={handleLogout}>

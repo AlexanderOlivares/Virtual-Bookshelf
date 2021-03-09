@@ -95,30 +95,33 @@ function Signup({ user, isLoggedIn, setIsLoggedIn, setUser }) {
       ) : (
         <>
           <form key={formKey} onSubmit={handleSubmit}>
+            <button name="googleSignIn" onClick={handleClick}>
+              Sign up with google
+            </button>
             <h4>sign up!</h4>
             <p>email</p>
-            <input name="email" onChange={handleChange}></input>
-            <br></br>
+            <input
+              name="email"
+              placeholder="your email"
+              onChange={handleChange}
+            ></input>
             <p>password</p>
             <input
+              placeholder="create a password"
               name="password"
               type="password"
               onChange={handleChange}
             ></input>
-            <br></br>
             <p>confirm password</p>
             <input
+              placeholder="confirm your password"
               name="confirmPassword"
               type="password"
               onChange={handleChange}
             ></input>
             <br></br>
-            <button>sign in</button>
+            <button>create my account</button>
           </form>
-          <br></br>
-          <button name="googleSignIn" onClick={handleClick}>
-            Sign up with google
-          </button>
         </>
       )}
     </div>
