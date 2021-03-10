@@ -2,8 +2,15 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
 import { auth, google } from "./firebase";
+import Profile from "./Profile";
+import {
+  StyledGoogleButton,
+  StyledInput,
+  StyledSignup,
+  StyledP,
+} from "./Signup";
 
-function SignIn({ isLoggedIn, setIsLoggedIn, user, setUser }) {
+function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -36,11 +43,9 @@ function SignIn({ isLoggedIn, setIsLoggedIn, user, setUser }) {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(userCredential => {
-        let user = userCredential.user;
-        setUser(email);
-        setIsLoggedIn(true);
-        console.log(user);
-        console.log(isLoggedIn);
+        let username = userCredential.username;
+        setUsername(email);
+        console.log(username);
       })
       .catch(error => {
         alert(`could sign in ${error.code}`);
@@ -58,18 +63,15 @@ function SignIn({ isLoggedIn, setIsLoggedIn, user, setUser }) {
 
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = credential.accessToken;
-        // The signed-in user info.
-        var googleUser = result.user;
+        // The signed-in username info.
+        var googleUser = result.username;
         // ...
-        console.log([token, googleUser]);
-        setIsLoggedIn(true);
-        setUser(googleUser.email);
       })
       .catch(error => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the user's account used.
+        // The email of the username's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
@@ -83,25 +85,33 @@ function SignIn({ isLoggedIn, setIsLoggedIn, user, setUser }) {
     <div>
       {!isLoggedIn ? (
         <div>
-          <form key={formKey} onSubmit={handleSubmit}>
-            <h4>sign up!</h4>
-            <p>email</p>
-            <input name="email" onChange={handleChange}></input>
-            <br></br>
-            <p>password</p>
+          {/* { this is for signin just reusing signup styled coponent} */}
+          <StyledSignup key={formKey} onSubmit={handleSubmit}>
+            <p>Sign in</p>
             <input
+              name="email"
+              placeholder="email"
+              onChange={handleChange}
+            ></input>
+            <br></br>
+            <input
+              placeholder="password"
               name="password"
               type="password"
               onChange={handleChange}
             ></input>
+            <br></br>
             <button>sign in</button>
-          </form>
-          <button name="googleSignIn" onClick={handleClick}>
-            Sign up with google
-          </button>
+          </StyledSignup>
+          <p>or</p>
+          <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+            Sign in with google
+          </StyledGoogleButton>
         </div>
       ) : (
-        <h2>welcome back you've signed in.</h2>
+        <>
+          <Profile username={username} />
+        </>
       )}
     </div>
   );

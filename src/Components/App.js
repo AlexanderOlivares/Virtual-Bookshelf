@@ -11,25 +11,32 @@ import Search from "./Search";
 import SignIn from "./SignIn";
 
 function App() {
-  const [user, setUser] = useState("");
+  const [username, setUsername] = useState("");
+
+  const [user_UID, setUser_UID] = useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  auth.onAuthStateChanged(user => {
-    if (user) {
+  auth.onAuthStateChanged(googleAuthUser => {
+    if (googleAuthUser) {
+      setUsername(googleAuthUser.displayName || googleAuthUser.email);
+      setUser_UID(googleAuthUser.uid);
       setIsLoggedIn(true);
-      console.log(user.uid + "is signed in");
+      console.log(googleAuthUser.uid + "is signed in");
     } else {
       setIsLoggedIn(null);
       console.log("auth successful sign out");
     }
   });
 
+  console.log(username);
+
   return (
     <Router>
       <div className="App">
         <Navbar
-          user={user}
+          username={username}
+          setUsername={setUsername}
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
         />
@@ -43,25 +50,25 @@ function App() {
             </Route>
             <Route exact path="/signin">
               <SignIn
-                user={user}
-                setUser={setUser}
+                username={username}
+                setUsername={setUsername}
                 setIsLoggedIn={setIsLoggedIn}
                 isLoggedIn={isLoggedIn}
               />
             </Route>
             <Route exact path="/signup">
               <Signup
-                user={user}
-                setUser={setUser}
+                username={username}
+                setUsername={setUsername}
                 setIsLoggedIn={setIsLoggedIn}
                 isLoggedIn={isLoggedIn}
               />
             </Route>
             <Route exact path="/profile">
-              <Profile user={user} isLoggedIn={isLoggedIn} />
+              <Profile username={username} isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/list">
-              <List user={user} isLoggedIn={isLoggedIn}/>
+              <List username={username} isLoggedIn={isLoggedIn} />
             </Route>
           </Switch>
         </div>
