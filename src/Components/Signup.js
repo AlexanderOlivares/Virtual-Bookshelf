@@ -96,11 +96,12 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = credential.accessToken;
         // The signed-in username info.
-        var userCredential = result.username;
-        // return db.collection("users").doc(userCredential.uid).set({
-        //   username: userCredential.displayName,
-        //   email: userCredential.email,
-        // });
+        var userCredential = result.user;
+        console.log(result.user.uid);
+        return db.collection("users").doc(result.user.uid).set({
+          username: result.user.displayName,
+          email: result.user.email,
+        });
       })
       .catch(error => {
         // Handle Errors here.
@@ -110,7 +111,7 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        alert(`${errorCode}${errorMessage}`);
+        alert(`could not signup: ${errorCode}${errorMessage}`);
         console.log([errorCode, errorMessage, credential, email]);
         // ...
       });
