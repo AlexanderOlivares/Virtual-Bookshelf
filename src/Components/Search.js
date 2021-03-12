@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import styled from "styled-components";
@@ -28,11 +28,25 @@ function Search({ user_UID }) {
   const [formKey, setFormKey] = useState(uuidv4());
   const [list, setList] = useState([]);
 
+  useEffect(() => {
+    const getBooksfromDb = db.collection(
+      `users/${user_UID}/booklist_${user_UID}`
+    );
+
+    getBooksfromDb.onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => ({
+        title: doc.id,
+        ...doc.data(),
+      }));
+      setList(data);
+    });
+  }, []);
+
   function handleChange(e) {
     setSearchInput(e.currentTarget.value);
   }
 
-  function handleSubmit(e) {
+  function handleSearch(e) {
     e.preventDefault();
 
     fetch(
@@ -56,50 +70,50 @@ function Search({ user_UID }) {
       .catch(error => {
         console.log("error: ", error);
       });
+
     setFormKey(uuidv4());
   }
 
-  ////////////////////////////////////////////////////////////////
-  // db.collection("test/doc_id/booklist/user_UID")
-
-  // db.collection("test")
-  //   .document("doc_id")
-  //   .collection("items")
-
-  //  dont even use handleAddBook just do it per each book not all at once
-  ////////////////////////////////////////////////////////////////
-
   /// SO THIS WILL CREATE A COLLECTION
-  function handleAddBook() {
-    db.collection(`users`)
-      .doc(`${user_UID}`)
-      .collection(`booklist_${user_UID}`)
-      .add({
-        data: "test data i wrote",
-      })
-      .then(() => {
-        console.log("doc successfully written");
-      })
-      .catch(error => {
-        console.error("error writing doc: ", error);
-      });
-  }
-
-  /////////////////////////////////////
-  // func below should handle the reading/ writing to db for indivindalu books
-  /////////////////////////////////////
-
   function addOrRemoveFromList(e) {
-    db.collection("users")
+    const book_ID = db
+      .collection("users")
       .doc(`${user_UID}`)
       .collection(`booklist_${user_UID}`)
-      .get()
-      .then(snapshot => {
-        console.log("doc successfully written");
-      })
-      .catch(error => {
-        console.error("error writing doc: ", error);
-      });
+      .doc(`${e.volumeInfo.title}`);
+
+    book_ID.get().then(docSnapshot => {
+      if (docSnapshot.exists) {
+        book_ID
+          .delete()
+          .then(() => console.log("book deleted"))
+          .catch(error => console.error("could not delete book" + error));
+      } else {
+        book_ID
+          .set({
+            title: e.volumeInfo.title,
+            thumbnail: e.volumeInfo.imageLinks.thumbnail,
+          })
+          .then(() => {
+            console.log("doc successfully written");
+          })
+          .catch(error => {
+            console.error("error writing doc: ", error);
+          });
+      }
+    });
+
+    if (list.some(x => x.title === e.volumeInfo.title)) {
+      setList(list.filter(book => book.title !== e.volumeInfo.title));
+    } else {
+      setList(prev => [
+        ...prev,
+        {
+          title: e.volumeInfo.title,
+          thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
+        },
+      ]);
+    }
   }
 
   //////////////////////////
@@ -111,11 +125,10 @@ function Search({ user_UID }) {
   return (
     <div>
       <h1>Search Books</h1>
-      <form onSubmit={handleSubmit} key={formKey}>
+      <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
       </form>
-      <button onClick={handleAddBook}>save list</button>
       <StyledContainer>
         {book &&
           book.map(e => {
@@ -140,6 +153,7 @@ function Search({ user_UID }) {
 }
 
 export default Search;
+
 // {/* .filter(e => e.volumeInfo.imageLinks) */}
 // {list.includes(e.volumeInfo.title)
 
@@ -169,4 +183,4 @@ export default Search;
 //       thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
 //     },
 //   ]);
-// }
+// };
