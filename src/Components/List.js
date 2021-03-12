@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
 
-function List({ username, isloggedIn }) {
+function List({ user_UID, username, isloggedIn }) {
   const [list, setList] = useState([]);
 
   // chnge to only get items that match the signed in username id
   useEffect(() => {
-    db.collection("test")
+    db.collection(`users/${user_UID}/booklist`)
       .get()
       .then(quereySnapshot => {
         quereySnapshot.forEach(doc => {
@@ -38,3 +38,19 @@ function List({ username, isloggedIn }) {
 }
 
 export default List;
+
+// useEffect(() => {
+//   db.collection(`users/${user_UID}/booklist`)
+//     .get()
+//     .then(quereySnapshot => {
+//       quereySnapshot.forEach(doc => {
+//         setList(prev =>
+//           Array.from(
+//             new Set(
+//               [...prev, String(Object.values(doc.data())).split(",")].flat()
+//             )
+//           )
+//         );
+//       });
+//     });
+// }, []);

@@ -4,24 +4,21 @@ import { Link } from "react-router-dom";
 
 function Navbar({ setIsLoggedIn, isLoggedIn, setUsername }) {
   function handleLogout() {
-    // set logout method
     auth
       .signOut()
       .then(() => {
-        // Sign-out successful.
         setIsLoggedIn(null);
         setUsername("");
       })
       .catch(error => {
-        // An error happened.
-        console.log(error);
+        console.log(`Could not log out ${error}`);
       });
   }
 
   return (
     <div>
       <span style={{ padding: 10 }}>
-        <Link to="/profile">Home</Link>
+        <Link to="/profile">Profile</Link>
       </span>
       <span style={{ padding: 10 }}>
         <Link to="/list">List</Link>

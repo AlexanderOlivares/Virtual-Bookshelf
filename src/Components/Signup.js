@@ -59,6 +59,12 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
     const password = input.password;
     const confirmPassword = input.confirmPassword;
 
+    let reg = /^.{6,}$/g;
+
+    if (!reg.test(password)) {
+      alert("password must be at least 6 characters long");
+    }
+
     if (password !== confirmPassword) {
       alert("passwords do not match");
     }
@@ -71,7 +77,6 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
 
     setFormKey(uuidv4());
 
-    // create new db collection here and match uid
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredential => {
@@ -97,23 +102,19 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
         var token = credential.accessToken;
         // The signed-in username info.
         var userCredential = result.user;
-        console.log(result.user.uid);
         return db.collection("users").doc(result.user.uid).set({
           username: result.user.displayName,
           email: result.user.email,
         });
       })
       .catch(error => {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the username's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         alert(`could not signup: ${errorCode}${errorMessage}`);
         console.log([errorCode, errorMessage, credential, email]);
-        // ...
       });
   }
 

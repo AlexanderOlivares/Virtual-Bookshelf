@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth, google } from "./firebase";
 import Profile from "./Profile";
 import {
@@ -48,7 +48,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         console.log(username);
       })
       .catch(error => {
-        alert(`could sign in ${error.code}`);
+        alert(`could not sign in ${error.code}`);
         console.log(error.code);
         console.log(error.message);
       });
@@ -65,19 +65,15 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         var token = credential.accessToken;
         // The signed-in username info.
         var googleUser = result.username;
-        // ...
       })
       .catch(error => {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the username's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         alert(`${errorCode}${errorMessage}`);
         console.log([errorCode, errorMessage, credential, email]);
-        // ...
       });
   }
 

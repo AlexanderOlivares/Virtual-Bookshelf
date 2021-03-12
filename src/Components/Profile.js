@@ -2,11 +2,6 @@ import React from "react";
 import Signup from "./Signup";
 
 function Profile({ username, isLoggedIn }) {
-  // let displayNameOrEmail =
-  //   username !== null && username.split("").includes("@")
-  //     ? username.match(/^\w+(?=@)/g).join("") || username
-  //     : username;
-  // console.log(username);
   return (
     <>
       {isLoggedIn || isLoggedIn === undefined ? (
@@ -16,7 +11,7 @@ function Profile({ username, isLoggedIn }) {
         </div>
       ) : (
         <div>
-          <h3>{"Log in to view your profile"}</h3>
+          <h3>{"Create an account and build your profile!"}</h3>
           <Signup />
         </div>
       )}

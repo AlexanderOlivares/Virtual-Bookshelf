@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { auth, google } from "./firebase";
+import { db } from "./firebase";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
@@ -17,19 +18,40 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
+  // db.collection("users")
+  //   .doc("booklist")
+  //   .onSnapshot(snapshot => {
+  //     let changes = snapshot.docChanges();
+  //     changes.forEach(e => console.log(e.doc.data()));
+  //   });
+
   auth.onAuthStateChanged(googleAuthUser => {
     if (googleAuthUser) {
-      setUsername(googleAuthUser.displayName || googleAuthUser.email);
-      setUser_UID(googleAuthUser.uid);
-      setIsLoggedIn(true);
-      console.log(googleAuthUser.uid + "is signed in");
+      const docRef = db.collection("users").doc(`${googleAuthUser.uid}`);
+
+      docRef
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            let data = doc.data();
+            setUsername(googleAuthUser.displayName || data.username);
+            setUser_UID(googleAuthUser.uid);
+            setIsLoggedIn(true);
+            console.log(googleAuthUser.uid + "is signed in");
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        })
+        .catch(error => {
+          alert(`Could not sign in ${error}`);
+          console.log("Error getting document:", error);
+        });
     } else {
       setIsLoggedIn(null);
-      console.log("auth successful sign out");
+      console.log("successful sign out");
     }
   });
-
-  console.log(username);
 
   return (
     <Router>
@@ -46,7 +68,7 @@ function App() {
               <LandingPage />
             </Route>
             <Route exact path="/search">
-              <Search />
+              <Search user_UID={user_UID} />
             </Route>
             <Route exact path="/signin">
               <SignIn
@@ -68,7 +90,11 @@ function App() {
               <Profile username={username} isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/list">
-              <List username={username} isLoggedIn={isLoggedIn} />
+              <List
+                username={username}
+                user_UID={user_UID}
+                isLoggedIn={isLoggedIn}
+              />
             </Route>
           </Switch>
         </div>
