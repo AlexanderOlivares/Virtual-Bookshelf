@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import styled from "styled-components";
 
-const StyledBook = styled.div`
+export const StyledBook = styled.div`
   margin: 0 auto;
   background-color: green;
   padding: 5px;
   flex-grow: 1;
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -88,6 +88,8 @@ function Search({ user_UID }) {
           .delete()
           .then(() => console.log("book deleted"))
           .catch(error => console.error("could not delete book" + error));
+
+        setList(list.filter(book => book.title !== book_ID));
       } else {
         book_ID
           .set({
@@ -100,20 +102,16 @@ function Search({ user_UID }) {
           .catch(error => {
             console.error("error writing doc: ", error);
           });
+
+        setList(prev => [
+          ...prev,
+          {
+            title: e.volumeInfo.title,
+            thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
+          },
+        ]);
       }
     });
-
-    if (list.some(x => x.title === e.volumeInfo.title)) {
-      setList(list.filter(book => book.title !== e.volumeInfo.title));
-    } else {
-      setList(prev => [
-        ...prev,
-        {
-          title: e.volumeInfo.title,
-          thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
-        },
-      ]);
-    }
   }
 
   //////////////////////////

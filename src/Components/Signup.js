@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Profile from "./Profile";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 export const StyledSignup = styled.form`
   background-color: dodgerblue;
@@ -32,7 +33,7 @@ export const StyledGoogleButton = styled.button`
   background-color: red;
 `;
 
-function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
+function Signup({ username, isLoggedIn }) {
   const [input, setInput] = useState({
     username: "",
     email: "",
@@ -122,7 +123,7 @@ function Signup({ username, isLoggedIn, setIsLoggedIn, setUsername }) {
     <div>
       {isLoggedIn ? (
         <>
-          <Profile username={username} />
+          <Search username={username} />
         </>
       ) : (
         <>
