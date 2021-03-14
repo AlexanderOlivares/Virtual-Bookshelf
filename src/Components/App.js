@@ -18,13 +18,6 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  // db.collection("users")
-  //   .doc("booklist")
-  //   .onSnapshot(snapshot => {
-  //     let changes = snapshot.docChanges();
-  //     changes.forEach(e => console.log(e.doc.data()));
-  //   });
-
   auth.onAuthStateChanged(googleAuthUser => {
     if (googleAuthUser) {
       const docRef = db.collection("users").doc(`${googleAuthUser.uid}`);
@@ -53,6 +46,8 @@ function App() {
     }
   });
 
+  console.log(isLoggedIn);
+
   return (
     <Router>
       <div className="App">
@@ -65,7 +60,7 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
-              <LandingPage />
+              <LandingPage isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/search">
               <Search user_UID={user_UID} />
