@@ -29,11 +29,12 @@ function Search({ user_UID }) {
   const [book, setBook] = useState([]);
   const [formKey, setFormKey] = useState(uuidv4());
   const [list, setList] = useState([]);
+  const [focusedShelf, setFocusedShelf] = useState(`booklist_${user_UID}`);
+  const [isShelfPrivate, setIsShelfPrivate] = useState(false);
+  const [popUpModal, setPopUpModal] = useState(false);
 
   useEffect(() => {
-    const getBooksfromDb = db.collection(
-      `users/${user_UID}/booklist_${user_UID}`
-    );
+    const getBooksfromDb = db.collection(`users/${user_UID}/${focusedShelf}`);
 
     getBooksfromDb.onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => ({
@@ -81,7 +82,7 @@ function Search({ user_UID }) {
     const book_ID = db
       .collection("users")
       .doc(`${user_UID}`)
-      .collection(`booklist_${user_UID}`)
+      .collection(`${focusedShelf}`)
       .doc(`${e.volumeInfo.title}`);
 
     book_ID.get().then(docSnapshot => {
@@ -121,9 +122,6 @@ function Search({ user_UID }) {
     console.log(list);
   }
   //////////////////////////
-  const [focusedShelf, setFocusedShelf] = useState(`booklist_${user_UID}`);
-  const [isShelfPrivate, setIsShelfPrivate] = useState(false);
-  const [popUpModal, setPopUpModal] = useState(false);
 
   // change the state if new list is slected. that state will conditionally render
   // the new list form component i need to make;
@@ -134,6 +132,7 @@ function Search({ user_UID }) {
     }
   }
 
+  let shelves = ["My List"];
   console.log(focusedShelf);
 
   return (
@@ -143,6 +142,11 @@ function Search({ user_UID }) {
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
       </form>
+      {focusedShelf !== `booklist_${user_UID}` && (
+        <>
+          <p>Add books to: {focusedShelf.split("_").slice(-1)}</p>
+        </>
+      )}
       {!popUpModal ? (
         <>
           <label for="bookLists">Add books to</label>
@@ -155,7 +159,6 @@ function Search({ user_UID }) {
             <option value="My List">My List</option>
             <option value="Create New List">Create New List</option>
           </select>
-          <button>create new list</button>
         </>
       ) : (
         <>

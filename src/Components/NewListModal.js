@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Search from "./Search";
 
 function NewListModal({
   user_UID,
@@ -7,6 +8,7 @@ function NewListModal({
   setIsShelfPrivate,
 }) {
   const [shelfNameInput, setShelfNameInput] = useState("");
+  const [closeModal, setCloseModal] = useState(false);
 
   function handleChange(e) {
     setShelfNameInput(e.currentTarget.value);
@@ -24,10 +26,11 @@ function NewListModal({
     } else {
       setFocusedShelf(newBooklistID);
     }
+    document.getElementById("newListForm").style.display = "none";
   }
 
   return (
-    <div>
+    <div id="newListForm">
       <form onSubmit={handleSubmit}>
         <h4>New Shelf</h4>
         <p>{shelfNameInput}</p>
