@@ -153,6 +153,7 @@ function Signup({ username, isLoggedIn }) {
               type="password"
               onChange={handleChange}
             ></StyledInput>
+            <br></br>
             <button>create my account</button>
             <br></br>
             <StyledP>Already have an account?</StyledP>

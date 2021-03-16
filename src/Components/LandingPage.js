@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { StyledBook, StyledContainer } from "./Search";
+import { v4 as uuidv4 } from "uuid";
 
 function LandingPage({ isloggedIn }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
@@ -46,7 +47,7 @@ function LandingPage({ isloggedIn }) {
           ? "...loading"
           : bestsellersList.map(book => {
               return (
-                <StyledBook>
+                <StyledBook key={uuidv4()}>
                   <img src={book.book_image} alt={book.title}></img>
                   <div>Title: {book.title}</div>
                   <div>Author: {book.author}</div>

@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import styled from "styled-components";
+import { Button, Form } from "react-bootstrap";
+import NewListModal from "./NewListModal";
 
 export const StyledBook = styled.div`
   margin: 0 auto;
@@ -119,6 +121,20 @@ function Search({ user_UID }) {
     console.log(list);
   }
   //////////////////////////
+  const [focusedShelf, setFocusedShelf] = useState(`booklist_${user_UID}`);
+  const [isShelfPrivate, setIsShelfPrivate] = useState(false);
+  const [popUpModal, setPopUpModal] = useState(false);
+
+  // change the state if new list is slected. that state will conditionally render
+  // the new list form component i need to make;
+  function handleSelectChange(e) {
+    const selectedShelf = e.target.value;
+    if (selectedShelf === "Create New List") {
+      setPopUpModal(true);
+    }
+  }
+
+  console.log(focusedShelf);
 
   return (
     <div>
@@ -127,6 +143,30 @@ function Search({ user_UID }) {
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
       </form>
+      {!popUpModal ? (
+        <>
+          <label for="bookLists">Add books to</label>
+          <select
+            name="bookLists"
+            /* value={myList} */
+            id="bookLists"
+            onChange={handleSelectChange}
+          >
+            <option value="My List">My List</option>
+            <option value="Create New List">Create New List</option>
+          </select>
+          <button>create new list</button>
+        </>
+      ) : (
+        <>
+          <NewListModal
+            user_UID={user_UID}
+            setFocusedShelf={setFocusedShelf}
+            isShelfPrivate={isShelfPrivate}
+            setIsShelfPrivate={setIsShelfPrivate}
+          />
+        </>
+      )}
       <StyledContainer>
         {book &&
           book.map(e => {
@@ -151,34 +191,3 @@ function Search({ user_UID }) {
 }
 
 export default Search;
-
-// {/* .filter(e => e.volumeInfo.imageLinks) */}
-// {list.includes(e.volumeInfo.title)
-
-// function addOrRemoveFromList(e) {
-//   if (list.includes(e.volumeInfo.title)) {
-//     setList(list.filter(book => book !== e.volumeInfo.title));
-//   } else {
-//     setList(prev => [...prev, e.volumeInfo.title]);
-//   }
-// }
-
-////////////////////////////////////
-// db.collection("cities")
-//   .doc("SF")
-//   .onSnapshot(doc => {
-//     console.log("Current data: ", doc.data());
-//   });
-//////////////////////////
-
-// if (list.some(x => x.title === e.volumeInfo.title)) {
-//   setList(list.filter(book => book.title !== e.volumeInfo.title));
-// } else {
-//   setList(prev => [
-//     ...prev,
-//     {
-//       title: e.volumeInfo.title,
-//       thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
-//     },
-//   ]);
-// };
