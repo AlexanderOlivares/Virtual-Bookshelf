@@ -9,23 +9,19 @@ function List({ user_UID }) {
 
   // chnge to only get items that match the signed in username id
   useEffect(() => {
-    db.collection(`users/${user_UID}/booklist_${user_UID}`).onSnapshot(
-      snapshot => {
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          setList(prev => [
-            ...prev,
-            {
-              title: data.title,
-              thumbnail_URL: data.thumbnail,
-            },
-          ]);
-        });
-      }
-    );
+    db.collection(`users/${user_UID}/shelf`).onSnapshot(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        setList(prev => [
+          ...prev,
+          {
+            title: data.title,
+            thumbnail_URL: data.thumbnail,
+          },
+        ]);
+      });
+    });
   }, []);
-
-  console.log(list);
 
   return (
     <>
@@ -48,19 +44,3 @@ function List({ user_UID }) {
 }
 
 export default List;
-
-// useEffect(() => {
-//   db.collection(`users/${user_UID}/booklist`)
-//     .get()
-//     .then(quereySnapshot => {
-//       quereySnapshot.forEach(doc => {
-//         setList(prev =>
-//           Array.from(
-//             new Set(
-//               [...prev, String(Object.values(doc.data())).split(",")].flat()
-//             )
-//           )
-//         );
-//       });
-//     });
-// }, []);

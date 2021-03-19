@@ -18,6 +18,7 @@ function NewListModal({
     setIsShelfPrivate(prev => !prev);
   }
 
+  // will need to change the route if you update db schema
   function handleSubmit(e) {
     e.preventDefault();
     let newBooklistID = `bookist_${user_UID}_${shelfNameInput}`;
@@ -46,7 +47,7 @@ function NewListModal({
             type="checkbox"
             onClick={handlePrivateShelf}
           ></input>
-          <label for="privateShelf">Yes</label>
+          <label htmlFor="privateShelf">Yes</label>
         </div>
         <button>Cancel</button>
         <button type="submit">Create Shelf</button>

@@ -84,6 +84,7 @@ function Signup({ username, isLoggedIn }) {
         return db.collection("users").doc(userCredential.user.uid).set({
           username: username,
           email: email,
+          uid: userCredential.user.uid,
         });
       })
       .catch(error => {
@@ -106,6 +107,7 @@ function Signup({ username, isLoggedIn }) {
         return db.collection("users").doc(result.user.uid).set({
           username: result.user.displayName,
           email: result.user.email,
+          uid: result.user.uid,
         });
       })
       .catch(error => {

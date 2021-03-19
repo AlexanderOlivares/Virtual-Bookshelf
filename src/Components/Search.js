@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import styled from "styled-components";
-import { Button, Form } from "react-bootstrap";
-import NewListModal from "./NewListModal";
 
 export const StyledBook = styled.div`
   margin: 0 auto;
@@ -29,12 +27,9 @@ function Search({ user_UID }) {
   const [book, setBook] = useState([]);
   const [formKey, setFormKey] = useState(uuidv4());
   const [list, setList] = useState([]);
-  const [focusedShelf, setFocusedShelf] = useState(`booklist_${user_UID}`);
-  const [isShelfPrivate, setIsShelfPrivate] = useState(false);
-  const [popUpModal, setPopUpModal] = useState(false);
 
   useEffect(() => {
-    const getBooksfromDb = db.collection(`users/${user_UID}/${focusedShelf}`);
+    const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
 
     getBooksfromDb.onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => ({
@@ -82,7 +77,7 @@ function Search({ user_UID }) {
     const book_ID = db
       .collection("users")
       .doc(`${user_UID}`)
-      .collection(`${focusedShelf}`)
+      .collection(`shelf`)
       .doc(`${e.volumeInfo.title}`);
 
     book_ID.get().then(docSnapshot => {
@@ -97,7 +92,9 @@ function Search({ user_UID }) {
         book_ID
           .set({
             title: e.volumeInfo.title,
+            author: e.volumeInfo.authors.join(", "),
             thumbnail: e.volumeInfo.imageLinks.thumbnail,
+            description: e.volumeInfo.description,
           })
           .then(() => {
             console.log("doc successfully written");
@@ -110,7 +107,9 @@ function Search({ user_UID }) {
           ...prev,
           {
             title: e.volumeInfo.title,
-            thumbnail_URL: e.volumeInfo.imageLinks.thumbnail,
+            author: e.volumeInfo.authors,
+            thumbnail: e.volumeInfo.imageLinks.thumbnail,
+            description: e.volumeInfo.description,
           },
         ]);
       }
@@ -118,22 +117,11 @@ function Search({ user_UID }) {
   }
 
   //////////////////////////
-  if (list.length) {
-    console.log(list);
-  }
+  // if (list.length) {
+  //   console.log(list);
+  // }
   //////////////////////////
-
-  // change the state if new list is slected. that state will conditionally render
-  // the new list form component i need to make;
-  function handleSelectChange(e) {
-    const selectedShelf = e.target.value;
-    if (selectedShelf === "Create New List") {
-      setPopUpModal(true);
-    }
-  }
-
-  let shelves = ["My List"];
-  console.log(focusedShelf);
+  console.log(book);
 
   return (
     <div>
@@ -142,34 +130,7 @@ function Search({ user_UID }) {
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
       </form>
-      {focusedShelf !== `booklist_${user_UID}` && (
-        <>
-          <p>Add books to: {focusedShelf.split("_").slice(-1)}</p>
-        </>
-      )}
-      {!popUpModal ? (
-        <>
-          <label for="bookLists">Add books to</label>
-          <select
-            name="bookLists"
-            /* value={myList} */
-            id="bookLists"
-            onChange={handleSelectChange}
-          >
-            <option value="My List">My List</option>
-            <option value="Create New List">Create New List</option>
-          </select>
-        </>
-      ) : (
-        <>
-          <NewListModal
-            user_UID={user_UID}
-            setFocusedShelf={setFocusedShelf}
-            isShelfPrivate={isShelfPrivate}
-            setIsShelfPrivate={setIsShelfPrivate}
-          />
-        </>
-      )}
+      <p>Add books to your shelf</p>
       <StyledContainer>
         {book &&
           book.map(e => {
