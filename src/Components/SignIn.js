@@ -2,13 +2,14 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { auth, google } from "./firebase";
-import Profile from "./Profile";
+import Home from "./Home";
 import {
   StyledGoogleButton,
   StyledInput,
   StyledSignup,
   StyledP,
 } from "./Signup";
+import LandingPage from "./Home";
 
 function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
   const [input, setInput] = useState({
@@ -45,6 +46,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
       .then(userCredential => {
         let username = userCredential.username;
         setUsername(email);
+        setIsLoggedIn(true);
         console.log(username);
       })
       .catch(error => {
@@ -65,6 +67,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         var token = credential.accessToken;
         // The signed-in username info.
         var googleUser = result.username;
+        setIsLoggedIn(true);
       })
       .catch(error => {
         var errorCode = error.code;
@@ -72,6 +75,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
+        setIsLoggedIn(null);
         alert(`${errorCode}${errorMessage}`);
         console.log([errorCode, errorMessage, credential, email]);
       });
@@ -106,7 +110,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         </div>
       ) : (
         <>
-          <Profile username={username} />
+          <LandingPage isLoggedIn={isLoggedIn} username={username} />
         </>
       )}
     </div>
@@ -114,10 +118,3 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
 }
 
 export default SignIn;
-
-{
-  /* <br></br>
-        <button name="googleSignIn" onClick={handleClick}>
-          Sign in with google
-        </button> */
-}

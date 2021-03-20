@@ -24,21 +24,21 @@ export const StyledContainer = styled.div`
 function Search({ user_UID }) {
   const API_KEY = process.env.REACT_APP_FIREBASE_GOOGLE_BOOKS_API_KEY;
   const [searchInput, setSearchInput] = useState("");
-  const [book, setBook] = useState([]);
+  const [googleBooksResults, setGoogleBooksResults] = useState([]);
   const [formKey, setFormKey] = useState(uuidv4());
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
+  // useEffect(() => {
+  //   const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
 
-    getBooksfromDb.onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => ({
-        title: doc.id,
-        ...doc.data(),
-      }));
-      setList(data);
-    });
-  }, []);
+  //   getBooksfromDb.onSnapshot(snapshot => {
+  //     const data = snapshot.docs.map(doc => ({
+  //       title: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     setList(data);
+  //   });
+  // }, []);
 
   function handleChange(e) {
     setSearchInput(e.currentTarget.value);
@@ -63,7 +63,7 @@ function Search({ user_UID }) {
         let booksWithImageLinks = jsonRes.items.filter(
           e => e.volumeInfo.imageLinks
         );
-        setBook(booksWithImageLinks);
+        setGoogleBooksResults(booksWithImageLinks);
       })
       .catch(error => {
         console.log("error: ", error);
@@ -100,6 +100,7 @@ function Search({ user_UID }) {
             console.log("doc successfully written");
           })
           .catch(error => {
+            alert("Please sign in or create an account to create your shelf");
             console.error("error writing doc: ", error);
           });
 
@@ -117,11 +118,10 @@ function Search({ user_UID }) {
   }
 
   //////////////////////////
-  // if (list.length) {
-  //   console.log(list);
-  // }
+  if (list.length) {
+    console.log(list);
+  }
   //////////////////////////
-  console.log(book);
 
   return (
     <div>
@@ -132,8 +132,8 @@ function Search({ user_UID }) {
       </form>
       <p>Add books to your shelf</p>
       <StyledContainer>
-        {book &&
-          book.map(e => {
+        {googleBooksResults &&
+          googleBooksResults.map(e => {
             return (
               <StyledBook key={uuidv4()}>
                 <img
@@ -142,7 +142,11 @@ function Search({ user_UID }) {
                 ></img>
                 <br></br>
                 <button onClick={() => addOrRemoveFromList(e)}>
-                  {list.some(x => x.title === e.volumeInfo.title)
+                  {list.some(
+                    x =>
+                      x.title === e.volumeInfo.title &&
+                      x.author === e.volumeInfo.authors
+                  )
                     ? "remove from list"
                     : "add to list"}
                 </button>

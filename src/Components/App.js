@@ -5,9 +5,9 @@ import { db } from "./firebase";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
-import LandingPage from "./LandingPage";
+import Home from "./Home";
 import Signup from "./Signup";
-import List from "./List";
+import Shelf from "./Shelf";
 import Search from "./Search";
 import SignIn from "./SignIn";
 
@@ -60,7 +60,7 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
-              <LandingPage isLoggedIn={isLoggedIn} />
+              <Home isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/search">
               <Search user_UID={user_UID} />
@@ -84,8 +84,8 @@ function App() {
             <Route exact path="/profile">
               <Profile username={username} isLoggedIn={isLoggedIn} />
             </Route>
-            <Route exact path="/list">
-              <List
+            <Route exact path="/shelf">
+              <Shelf
                 username={username}
                 user_UID={user_UID}
                 isLoggedIn={isLoggedIn}

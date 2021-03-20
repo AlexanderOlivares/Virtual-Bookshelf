@@ -3,7 +3,7 @@ import { useState } from "react";
 import { auth, google } from "./firebase";
 import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
-import Profile from "./Profile";
+import Home from "./Home";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Search from "./Search";

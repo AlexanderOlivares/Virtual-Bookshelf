@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { StyledBook, StyledContainer } from "./Search";
 import { v4 as uuidv4 } from "uuid";
 
-function LandingPage({ isloggedIn }) {
+function Home({ isLoggedIn, username }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
 
   const [bestsellersList, setBestsellersList] = useState([]);
@@ -23,26 +23,37 @@ function LandingPage({ isloggedIn }) {
       .catch(error => console.error(`error: ${error}`));
   }, []);
 
-  console.log(isloggedIn);
+  console.log(isLoggedIn);
 
   return (
     <div>
-      <h2>My Virtual Bookshelf</h2>
-      <p>
-        Always read E-books? Only listen audiooks? Now you have a place to
-        display your collection. Start a virtual Bookshelf and share what you're
-        reading with friends no matter where they are!
-      </p>
-      <div>
-        <hr></hr>
-        <h5>Create an Account or sign up with Google</h5>
-        <button>
-          <Link to="/signup">Sign up now!</Link>
-        </button>
-      </div>
+      {isLoggedIn ? (
+        <div>
+          <h3>{`Welcome ${username}`}</h3>
+          <button>go to my shelf</button>
+          <button>search all books</button>
+        </div>
+      ) : (
+        <>
+          <h2>My Virtual Bookshelf</h2>
+          <p>
+            Always read E-books? Only listen audiooks? Now you have a place to
+            display your collection. Start a virtual Bookshelf and share what
+            you're reading with friends no matter where they are!
+          </p>
+          <div>
+            <hr></hr>
+            <h5>Create an Account or sign up with Google</h5>
+            <button>
+              <Link to="/signup">Sign up now!</Link>
+            </button>
+          </div>
+        </>
+      )}
       <br></br>
       <div>
-        <h3> NYT Best Sellers</h3>
+        <h5>or</h5>
+        <h3>Browse NYT Best Sellers</h3>
         {!bestsellersList.length
           ? "...loading"
           : bestsellersList.map(book => {
@@ -60,4 +71,4 @@ function LandingPage({ isloggedIn }) {
   );
 }
 
-export default LandingPage;
+export default Home;

@@ -18,10 +18,10 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername }) {
   return (
     <div>
       <span style={{ padding: 10 }}>
-        <Link to="/profile">Profile</Link>
+        <Link to="/">home</Link>
       </span>
       <span style={{ padding: 10 }}>
-        <Link to="/list">List</Link>
+        <Link to="/shelf">shelf</Link>
       </span>
       <span>nm</span>
       <span style={{ padding: 10 }}>

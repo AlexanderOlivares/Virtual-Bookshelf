@@ -4,7 +4,7 @@ import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
 import { StyledBook, StyledContainer } from "./Search";
 
-function List({ user_UID }) {
+function Shlef({ user_UID }) {
   const [list, setList] = useState([]);
 
   // chnge to only get items that match the signed in username id
@@ -43,4 +43,4 @@ function List({ user_UID }) {
   );
 }
 
-export default List;
+export default Shlef;
