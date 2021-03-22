@@ -4,6 +4,7 @@ import { StyledBook, StyledContainer } from "./Search";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import Modal from "react-modal";
+import { render } from "@testing-library/react";
 Modal.setAppElement("#root");
 
 function Home({ isLoggedIn, username, user_UID }) {
@@ -12,7 +13,7 @@ function Home({ isLoggedIn, username, user_UID }) {
   const [bestsellersList, setBestsellersList] = useState([]);
   const [homeList, setHomeList] = useState([]);
   const [modal, setModal] = useState(false);
-  const [modalIndex, setModalIndex] = useState(0);
+  const [modalIndex, setModalIndex] = useState(-1);
 
   useEffect(() => {
     fetch(
@@ -76,11 +77,32 @@ function Home({ isLoggedIn, username, user_UID }) {
     });
   }
 
-  function toggleModal() {
-    setModal(!modal);
+  function renderModal(modalIndex) {
+    let modalTargetBook = bestsellersList[modalIndex];
+    return (
+      modalTargetBook && (
+        <Modal
+          isOpen={modal}
+          modalIndex={modalIndex}
+          onRequestClose={() => toggleModal()}
+        >
+          <img
+            src={modalTargetBook.book_image}
+            alt={modalTargetBook.title}
+          ></img>
+          <p>{modalTargetBook.description}</p>
+          <div>
+            <button onClick={() => toggleModal()}>close</button>
+          </div>
+        </Modal>
+      )
+    );
   }
 
-  console.log(modalIndex);
+  function toggleModal(index = -1) {
+    setModalIndex(index);
+    setModal(prev => !prev);
+  }
 
   return (
     <div>
@@ -120,7 +142,7 @@ function Home({ isLoggedIn, username, user_UID }) {
                   <div>{book.title}</div>
                   <div>{book.contributor}</div>
                   <div>Rank: {book.rank}</div>
-                  <button onClick={toggleModal}>info</button>
+                  <button onClick={() => toggleModal(index)}>info</button>
                   {isLoggedIn && (
                     <button onClick={() => addOrRemoveFromList}>
                       {homeList.some(
@@ -134,13 +156,7 @@ function Home({ isLoggedIn, username, user_UID }) {
               );
             })}
       </div>
-
-      {/* STARTING FRESH WITH MODAL. NEED TO PREVENT RE-RENDER LOOP */}
-      <Modal isOpen={modal} onRequestClose={() => setModal(false)}>
-        <div>
-          <button onClick={() => setModal(false)}>close</button>
-        </div>
-      </Modal>
+      {renderModal(modalIndex)}
     </div>
   );
 }
@@ -148,14 +164,27 @@ function Home({ isLoggedIn, username, user_UID }) {
 export default Home;
 
 // <Modal isOpen={modal} index{modalIndex} onRequestClose={activeItem(-1)}>
-//   <div>
-//     <p>{bestsellersList[modalIndex].title}</p>
-//     <img
-//       src={bestsellersList[modalIndex].book_image}
-//       alt={bestsellersList[modalIndex].title}
-//     ></img> */}
-//   </div>
+//{
+/* <div>
+  <p>{bestsellersList[modalIndex].title}</p>
+  <img
+    src={bestsellersList[modalIndex].book_image}
+    alt={bestsellersList[modalIndex].title}
+  ></img>{" "}
+  */
+//}
+// </div>; */}
 //   <div>
 //     <button onClick={() => setModal(false)}>close</button>
+//   </div>
+// </Modal>
+
+// <Modal isOpen={modal} onRequestClose={() => renderModal(-1)}>
+//   <div>
+//     <p>{info.title}</p>
+//     <img src={info.book_image} alt={info.title}></img>
+//   </div>
+//   <div>
+//     <button onClick={() => renderModal(-1)}>close</button>
 //   </div>
 // </Modal>
