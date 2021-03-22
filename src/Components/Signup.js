@@ -60,7 +60,7 @@ function Signup({ username, isLoggedIn }) {
     const password = input.password;
     const confirmPassword = input.confirmPassword;
 
-    let reg = /^.{6,}$/g;
+    let reg = /^.{6,25}$/g;
 
     if (!reg.test(password)) {
       alert("password must be at least 6 characters long");

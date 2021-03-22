@@ -4,7 +4,6 @@ import { StyledBook, StyledContainer } from "./Search";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import Modal from "react-modal";
-import { render } from "@testing-library/react";
 Modal.setAppElement("#root");
 
 function Home({ isLoggedIn, username, user_UID }) {
@@ -25,7 +24,7 @@ function Home({ isLoggedIn, username, user_UID }) {
         }
       })
       .then(res => {
-        // console.log(res.results.books);
+        console.log(res.results.books);
         setBestsellersList(res.results.books);
       })
       .catch(error => console.error(`error: ${error}`));
@@ -104,11 +103,13 @@ function Home({ isLoggedIn, username, user_UID }) {
     setModal(prev => !prev);
   }
 
+  console.log(isLoggedIn);
+
   return (
     <div>
       {isLoggedIn ? (
         <div>
-          <p>{`${username}`}</p>
+          <p>{`user icon ${username}`}</p>
           <button>go to my shelf</button>
           <button>search all books</button>
         </div>
@@ -144,7 +145,7 @@ function Home({ isLoggedIn, username, user_UID }) {
                   <div>Rank: {book.rank}</div>
                   <button onClick={() => toggleModal(index)}>info</button>
                   {isLoggedIn && (
-                    <button onClick={() => addOrRemoveFromList}>
+                    <button onClick={() => addOrRemoveFromList(book)}>
                       {homeList.some(
                         x => x.title === book.title && x.author === book.author
                       )
@@ -162,29 +163,3 @@ function Home({ isLoggedIn, username, user_UID }) {
 }
 
 export default Home;
-
-// <Modal isOpen={modal} index{modalIndex} onRequestClose={activeItem(-1)}>
-//{
-/* <div>
-  <p>{bestsellersList[modalIndex].title}</p>
-  <img
-    src={bestsellersList[modalIndex].book_image}
-    alt={bestsellersList[modalIndex].title}
-  ></img>{" "}
-  */
-//}
-// </div>; */}
-//   <div>
-//     <button onClick={() => setModal(false)}>close</button>
-//   </div>
-// </Modal>
-
-// <Modal isOpen={modal} onRequestClose={() => renderModal(-1)}>
-//   <div>
-//     <p>{info.title}</p>
-//     <img src={info.book_image} alt={info.title}></img>
-//   </div>
-//   <div>
-//     <button onClick={() => renderModal(-1)}>close</button>
-//   </div>
-// </Modal>

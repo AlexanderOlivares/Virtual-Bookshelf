@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
+import Modal from "react-modal";
 import styled from "styled-components";
 
 export const StyledBook = styled.div`
@@ -27,18 +28,22 @@ function Search({ user_UID }) {
   const [googleBooksResults, setGoogleBooksResults] = useState([]);
   const [formKey, setFormKey] = useState(uuidv4());
   const [list, setList] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [modalIndex, setModalIndex] = useState(-1);
 
-  // useEffect(() => {
-  //   const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
+  useEffect(() => {
+    const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
 
-  //   getBooksfromDb.onSnapshot(snapshot => {
-  //     const data = snapshot.docs.map(doc => ({
-  //       title: doc.id,
-  //       ...doc.data(),
-  //     }));
-  //     setList(data);
-  //   });
-  // }, []);
+    getBooksfromDb.onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => ({
+        title: doc.id,
+        ...doc.data(),
+      }));
+      setList(data);
+    });
+
+    // return () => getBooksfromDb;
+  }, []);
 
   function handleChange(e) {
     setSearchInput(e.currentTarget.value);
@@ -61,7 +66,7 @@ function Search({ user_UID }) {
       })
       .then(jsonRes => {
         let booksWithImageLinks = jsonRes.items.filter(
-          e => e.volumeInfo.imageLinks
+          e => e.volumeInfo.imageLinks && e.volumeInfo.description
         );
         setGoogleBooksResults(booksWithImageLinks);
       })
@@ -118,10 +123,37 @@ function Search({ user_UID }) {
   }
 
   //////////////////////////
-  if (list.length) {
-    console.log(list);
-  }
+  // if (list.length) {
+  //   console.log(list);
+  // }
   //////////////////////////
+  function renderModal(modalIndex) {
+    let modalTargetBook = googleBooksResults[modalIndex];
+    return (
+      modalTargetBook && (
+        <Modal
+          isOpen={modal}
+          modalIndex={modalIndex}
+          onRequestClose={() => toggleModal()}
+        >
+          <img
+            src={modalTargetBook.volumeInfo.imageLinks.thumbnail}
+            alt={modalTargetBook.volumeInfo.title}
+          ></img>
+          <p>{modalTargetBook.volumeInfo.description}</p>
+          <p>{`by ${modalTargetBook.volumeInfo.authors}`}</p>
+          <div>
+            <button onClick={() => toggleModal()}>close</button>
+          </div>
+        </Modal>
+      )
+    );
+  }
+
+  function toggleModal(index = -1) {
+    setModalIndex(index);
+    setModal(prev => !prev);
+  }
 
   return (
     <div>
@@ -133,7 +165,7 @@ function Search({ user_UID }) {
       </form>
       <StyledContainer>
         {googleBooksResults &&
-          googleBooksResults.map(e => {
+          googleBooksResults.map((e, index) => {
             return (
               <StyledBook key={uuidv4()}>
                 <img
@@ -141,11 +173,12 @@ function Search({ user_UID }) {
                   alt={e.volumeInfo.title}
                 ></img>
                 <br></br>
+                <button onClick={() => toggleModal(index)}>info</button>
                 <button onClick={() => addOrRemoveFromList(e)}>
                   {list.some(
                     x =>
                       x.title === e.volumeInfo.title &&
-                      x.author === e.volumeInfo.authors
+                      x.thumbnail === e.volumeInfo.imageLinks.thumbnail
                   )
                     ? "remove from list"
                     : "add to list"}
@@ -154,6 +187,7 @@ function Search({ user_UID }) {
             );
           })}
       </StyledContainer>
+      {renderModal(modalIndex)}
     </div>
   );
 }

@@ -33,7 +33,7 @@ function App() {
             console.log(googleAuthUser.uid + "is signed in");
           } else {
             // doc.data() will be undefined in this case
-            console.log("No such document!");
+            console.log(doc.data + "No such document!");
           }
         })
         .catch(error => {
@@ -45,8 +45,6 @@ function App() {
       console.log("successful sign out");
     }
   });
-
-  console.log(username);
 
   return (
     <Router>
