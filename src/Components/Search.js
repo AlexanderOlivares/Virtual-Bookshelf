@@ -126,11 +126,11 @@ function Search({ user_UID }) {
   return (
     <div>
       <h1>Search Books</h1>
+      <h4>to add books to your shelf</h4>
       <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
       </form>
-      <p>Add books to your shelf</p>
       <StyledContainer>
         {googleBooksResults &&
           googleBooksResults.map(e => {

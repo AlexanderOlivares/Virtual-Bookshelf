@@ -9,7 +9,6 @@ import {
   StyledSignup,
   StyledP,
 } from "./Signup";
-import LandingPage from "./Home";
 
 function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
   const [input, setInput] = useState({
@@ -110,7 +109,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         </div>
       ) : (
         <>
-          <LandingPage isLoggedIn={isLoggedIn} username={username} />
+          <Home isLoggedIn={isLoggedIn} username={username} />
         </>
       )}
     </div>

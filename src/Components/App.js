@@ -46,7 +46,7 @@ function App() {
     }
   });
 
-  console.log(isLoggedIn);
+  console.log(username);
 
   return (
     <Router>
@@ -60,7 +60,11 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
-              <Home isLoggedIn={isLoggedIn} />
+              <Home
+                username={username}
+                user_UID={user_UID}
+                isLoggedIn={isLoggedIn}
+              />
             </Route>
             <Route exact path="/search">
               <Search user_UID={user_UID} />

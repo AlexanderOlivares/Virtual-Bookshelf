@@ -27,6 +27,7 @@ function Shlef({ user_UID }) {
     <>
       <div>
         <h1>My Book List</h1>
+        <button>Share this shelf</button>
       </div>
       <StyledContainer>
         {!list.length
