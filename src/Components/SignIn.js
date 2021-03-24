@@ -88,12 +88,14 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
           <StyledSignup key={formKey} onSubmit={handleSubmit}>
             <p>Sign in</p>
             <input
+              required
               name="email"
               placeholder="email"
               onChange={handleChange}
             ></input>
             <br></br>
             <input
+              required
               placeholder="password"
               name="password"
               type="password"

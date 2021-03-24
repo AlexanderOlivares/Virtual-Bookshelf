@@ -64,10 +64,12 @@ function Signup({ username, isLoggedIn }) {
 
     if (!reg.test(password)) {
       alert("password must be at least 6 characters long");
+      return;
     }
 
     if (password !== confirmPassword) {
       alert("passwords do not match");
+      return;
     }
 
     setInput({
@@ -131,12 +133,19 @@ function Signup({ username, isLoggedIn }) {
         <>
           <StyledSignup key={formKey} onSubmit={handleSubmit}>
             <StyledInput
+              required
+              minLength="2"
+              maxLength="25"
               name="username"
               placeholder="pick a username"
               onChange={handleChange}
             ></StyledInput>
             <br></br>
             <StyledInput
+              type="email"
+              required
+              minLength="6"
+              maxLength="25"
               name="email"
               placeholder="your email"
               onChange={handleChange}
@@ -144,12 +153,14 @@ function Signup({ username, isLoggedIn }) {
             <br></br>
             <StyledP>Password must be at least 6 characters long</StyledP>
             <StyledInput
+              required
               placeholder="create a password"
               name="password"
               type="password"
               onChange={handleChange}
             ></StyledInput>
             <StyledInput
+              required
               placeholder="confirm your password"
               name="confirmPassword"
               type="password"
