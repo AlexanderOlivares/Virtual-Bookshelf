@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { StyledBook, StyledContainer } from "./Search";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "./firebase";
+import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
+import { StyledGoogleButton } from "./Signup";
 Modal.setAppElement("#root");
 
 function Home({ isLoggedIn, username, user_UID }) {
@@ -103,7 +104,32 @@ function Home({ isLoggedIn, username, user_UID }) {
     setModal(prev => !prev);
   }
 
-  console.log(isLoggedIn);
+  function handleClick() {
+    auth
+      .signInWithPopup(google)
+      .then(result => {
+        /** @type {firebase.auth.OAuthCredential} */
+        var credential = result.credential;
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = credential.accessToken;
+        // The signed-in username info.
+        var userCredential = result.user;
+        return db.collection("users").doc(result.user.uid).set({
+          username: result.user.displayName,
+          email: result.user.email,
+          uid: result.user.uid,
+        });
+      })
+      .catch(error => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        alert(`could not signup: ${errorCode}${errorMessage}`);
+        console.log([errorCode, errorMessage, credential, email]);
+      });
+  }
 
   return (
     <div>
@@ -127,6 +153,9 @@ function Home({ isLoggedIn, username, user_UID }) {
             <button>
               <Link to="/signup">Sign up now!</Link>
             </button>
+            <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+              Sign up with google
+            </StyledGoogleButton>
           </div>
         </>
       )}

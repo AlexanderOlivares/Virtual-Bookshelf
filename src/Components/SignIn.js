@@ -55,7 +55,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
       });
   }
 
-  function handleClick(e) {
+  function handleClick() {
     auth
       .signInWithPopup(google)
       .then(result => {
@@ -65,7 +65,6 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = credential.accessToken;
         // The signed-in username info.
-        var googleUser = result.username;
         setIsLoggedIn(true);
       })
       .catch(error => {

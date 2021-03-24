@@ -22,7 +22,7 @@ export const StyledContainer = styled.div`
   background-color: dodgerblue;
 `;
 
-function Search({ user_UID }) {
+function Search({ user_UID, isLoggedIn }) {
   const API_KEY = process.env.REACT_APP_FIREBASE_GOOGLE_BOOKS_API_KEY;
   const [searchInput, setSearchInput] = useState("");
   const [googleBooksResults, setGoogleBooksResults] = useState([]);
@@ -122,11 +122,6 @@ function Search({ user_UID }) {
     });
   }
 
-  //////////////////////////
-  // if (list.length) {
-  //   console.log(list);
-  // }
-  //////////////////////////
   function renderModal(modalIndex) {
     let modalTargetBook = googleBooksResults[modalIndex];
     return (
@@ -155,10 +150,16 @@ function Search({ user_UID }) {
     setModal(prev => !prev);
   }
 
+  console.log(isLoggedIn);
+
   return (
     <div>
       <h1>Search Books</h1>
-      <h4>to add books to your shelf</h4>
+      {isLoggedIn ? (
+        <h4>to add books to your shelf</h4>
+      ) : (
+        <h6>Sign in or create an account to add books to your shelf</h6>
+      )}
       <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>
         <button type="submit">search</button>
@@ -174,15 +175,17 @@ function Search({ user_UID }) {
                 ></img>
                 <br></br>
                 <button onClick={() => toggleModal(index)}>info</button>
-                <button onClick={() => addOrRemoveFromList(e)}>
-                  {list.some(
-                    x =>
-                      x.title === e.volumeInfo.title &&
-                      x.thumbnail === e.volumeInfo.imageLinks.thumbnail
-                  )
-                    ? "remove from list"
-                    : "add to list"}
-                </button>
+                {isLoggedIn && (
+                  <button onClick={() => addOrRemoveFromList(e)}>
+                    {list.some(
+                      x =>
+                        x.title === e.volumeInfo.title &&
+                        x.thumbnail === e.volumeInfo.imageLinks.thumbnail
+                    )
+                      ? "remove from list"
+                      : "add to list"}
+                  </button>
+                )}
               </StyledBook>
             );
           })}

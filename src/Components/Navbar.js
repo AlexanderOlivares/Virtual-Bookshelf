@@ -2,13 +2,14 @@ import React from "react";
 import { auth } from "./firebase";
 import { Link } from "react-router-dom";
 
-function Navbar({ setIsLoggedIn, isLoggedIn, setUsername }) {
+function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
   function handleLogout() {
     auth
       .signOut()
       .then(() => {
         setIsLoggedIn(null);
         setUsername("");
+        setUserEmail(null);
       })
       .catch(error => {
         console.log(`Could not log out ${error}`);

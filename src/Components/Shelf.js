@@ -119,8 +119,6 @@ function Shlef({ user_UID, isLoggedIn, username }) {
     );
   }
 
-  console.log(window.location.href);
-
   return (
     <>
       <div>

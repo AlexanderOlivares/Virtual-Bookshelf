@@ -18,6 +18,8 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
+  const [userEmail, setUserEmail] = useState(null);
+
   auth.onAuthStateChanged(googleAuthUser => {
     if (googleAuthUser) {
       const docRef = db.collection("users").doc(`${googleAuthUser.uid}`);
@@ -30,6 +32,9 @@ function App() {
             setUsername(googleAuthUser.displayName || data.username);
             setUser_UID(googleAuthUser.uid);
             setIsLoggedIn(true);
+            setUserEmail(googleAuthUser.email);
+            // console.log(data);
+            // console.log(googleAuthUser);
             console.log(googleAuthUser.uid + "is signed in");
           } else {
             // doc.data() will be undefined in this case
@@ -46,6 +51,8 @@ function App() {
     }
   });
 
+  console.log(isLoggedIn);
+
   return (
     <Router>
       <div className="App">
@@ -54,6 +61,7 @@ function App() {
           setUsername={setUsername}
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
+          setUserEmail={setUserEmail}
         />
         <div className="content">
           <Switch>
@@ -65,7 +73,7 @@ function App() {
               />
             </Route>
             <Route exact path="/search">
-              <Search user_UID={user_UID} />
+              <Search user_UID={user_UID} isLoggedIn={isLoggedIn} />
             </Route>
             <Route exact path="/signin">
               <SignIn
@@ -77,6 +85,7 @@ function App() {
             </Route>
             <Route exact path="/signup">
               <Signup
+                userEmail={userEmail}
                 username={username}
                 setUsername={setUsername}
                 setIsLoggedIn={setIsLoggedIn}
