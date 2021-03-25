@@ -38,7 +38,8 @@ function App() {
             console.log(googleAuthUser.uid + "is signed in");
           } else {
             // doc.data() will be undefined in this case
-            console.log(doc.data + "No such document!");
+            alert("Error logging in. Please try again");
+            console.log(doc.data() + "No such document!");
           }
         })
         .catch(error => {

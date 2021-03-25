@@ -143,9 +143,9 @@ function Home({ isLoggedIn, username, user_UID }) {
         <>
           <h1>My Virtual Bookshelf</h1>
           <p>
-            Always read E-books? Only listen audiooks? Now you have a place to
-            display your collection. Create a virtual Bookshelf and show your
-            friends what you're reading
+            Do you love e-books and audiobooks but miss putting finished books
+            on your bookshelf? Now you have a digital shelf to display your
+            collection.
           </p>
           <div>
             <hr></hr>

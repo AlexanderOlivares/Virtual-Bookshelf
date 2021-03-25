@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { StyledBook, StyledContainer } from "./Search";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
+import { Link } from "react-router-dom";
 
 function Shlef({ user_UID, isLoggedIn, username }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
@@ -15,8 +16,8 @@ function Shlef({ user_UID, isLoggedIn, username }) {
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
   const [emailModal, setEmailModal] = useState(false);
+  let isLoggedInAndList = isLoggedIn && list.length ? true : false;
 
-  // chnge to only get items that match the signed in username id
   useEffect(() => {
     db.collection(`users/${user_UID}/shelf`).onSnapshot(snapshot => {
       snapshot.forEach(doc => {
@@ -123,28 +124,46 @@ function Shlef({ user_UID, isLoggedIn, username }) {
     <>
       <div>
         <h1>My Book List</h1>
-        {isLoggedIn && (
+        {isLoggedInAndList && (
           <button onClick={() => setEmailModal(true)}>email shelf</button>
+        )}
+        {!list.length && (
+          <>
+            <h4>Seach for books and create your shelf!</h4>
+            <div>
+              <button>
+                <Link to="/search">Search</Link>
+              </button>
+            </div>
+          </>
         )}
       </div>
       <StyledContainer>
-        {!list.length
-          ? // FIX THIS LOADING WHEN ERROR HANDLING
-            "loading..."
-          : list.map((e, index) => {
-              return (
-                <StyledBook key={uuidv4()}>
-                  <img src={e.thumbnail_URL} alt={e.title}></img>
-                  <br></br>
-                  <button onClick={() => toggleModal(index)}>info</button>
-                  {isLoggedIn && (
-                    <button onClick={() => removeFromList(e)}>
-                      remove from list
-                    </button>
-                  )}
-                </StyledBook>
-              );
-            })}
+        {!list.length ? (
+          <>
+            <h4>Seach for books and create your shelf!</h4>
+            <div>
+              <button>
+                <Link to="/search">Search</Link>
+              </button>
+            </div>
+          </>
+        ) : (
+          list.map((e, index) => {
+            return (
+              <StyledBook key={uuidv4()}>
+                <img src={e.thumbnail_URL} alt={e.title}></img>
+                <br></br>
+                <button onClick={() => toggleModal(index)}>info</button>
+                {isLoggedIn && (
+                  <button onClick={() => removeFromList(e)}>
+                    remove from list
+                  </button>
+                )}
+              </StyledBook>
+            );
+          })
+        )}
       </StyledContainer>
       <div>{renderEmailModal()}</div>
       <div>{renderModal(modalIndex)}</div>
