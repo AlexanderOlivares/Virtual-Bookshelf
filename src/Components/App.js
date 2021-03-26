@@ -10,6 +10,7 @@ import Signup from "./Signup";
 import Shelf from "./Shelf";
 import Search from "./Search";
 import SignIn from "./SignIn";
+import { GlobalStyle } from "./GlobalStyle";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -55,58 +56,61 @@ function App() {
   console.log(isLoggedIn);
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar
-          username={username}
-          setUsername={setUsername}
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          setUserEmail={setUserEmail}
-        />
-        <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <Home
-                username={username}
-                user_UID={user_UID}
-                isLoggedIn={isLoggedIn}
-              />
-            </Route>
-            <Route exact path="/search">
-              <Search user_UID={user_UID} isLoggedIn={isLoggedIn} />
-            </Route>
-            <Route exact path="/signin">
-              <SignIn
-                username={username}
-                setUsername={setUsername}
-                setIsLoggedIn={setIsLoggedIn}
-                isLoggedIn={isLoggedIn}
-              />
-            </Route>
-            <Route exact path="/signup">
-              <Signup
-                userEmail={userEmail}
-                username={username}
-                setUsername={setUsername}
-                setIsLoggedIn={setIsLoggedIn}
-                isLoggedIn={isLoggedIn}
-              />
-            </Route>
-            <Route exact path="/profile">
-              <Profile username={username} isLoggedIn={isLoggedIn} />
-            </Route>
-            <Route exact path="/shelf">
-              <Shelf
-                username={username}
-                user_UID={user_UID}
-                isLoggedIn={isLoggedIn}
-              />
-            </Route>
-          </Switch>
+    <>
+      <GlobalStyle />
+      <Router>
+        <div className="App">
+          <Navbar
+            username={username}
+            setUsername={setUsername}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            setUserEmail={setUserEmail}
+          />
+          <div className="content">
+            <Switch>
+              <Route exact path="/">
+                <Home
+                  username={username}
+                  user_UID={user_UID}
+                  isLoggedIn={isLoggedIn}
+                />
+              </Route>
+              <Route exact path="/search">
+                <Search user_UID={user_UID} isLoggedIn={isLoggedIn} />
+              </Route>
+              <Route exact path="/signin">
+                <SignIn
+                  username={username}
+                  setUsername={setUsername}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
+                />
+              </Route>
+              <Route exact path="/signup">
+                <Signup
+                  userEmail={userEmail}
+                  username={username}
+                  setUsername={setUsername}
+                  setIsLoggedIn={setIsLoggedIn}
+                  isLoggedIn={isLoggedIn}
+                />
+              </Route>
+              <Route exact path="/profile">
+                <Profile username={username} isLoggedIn={isLoggedIn} />
+              </Route>
+              <Route exact path="/shelf">
+                <Shelf
+                  username={username}
+                  user_UID={user_UID}
+                  isLoggedIn={isLoggedIn}
+                />
+              </Route>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 

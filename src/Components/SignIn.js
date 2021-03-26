@@ -5,6 +5,7 @@ import { auth, google } from "./firebase";
 import Home from "./Home";
 import {
   StyledGoogleButton,
+  StyledButton,
   StyledInput,
   StyledSignup,
   StyledP,
@@ -86,24 +87,24 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
           {/* { this is for signin just reusing signup styled coponent} */}
           <StyledSignup key={formKey} onSubmit={handleSubmit}>
             <p>Sign in</p>
-            <input
+            <StyledInput
               required
               name="email"
               placeholder="email"
               onChange={handleChange}
-            ></input>
+            ></StyledInput>
             <br></br>
-            <input
+            <StyledInput
               required
               placeholder="password"
               name="password"
               type="password"
               onChange={handleChange}
-            ></input>
+            ></StyledInput>
             <br></br>
-            <button>sign in</button>
+            <StyledButton>sign in</StyledButton>
+            <StyledP>or</StyledP>
           </StyledSignup>
-          <p>or</p>
           <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
             Sign in with google
           </StyledGoogleButton>

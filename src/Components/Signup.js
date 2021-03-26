@@ -11,26 +11,49 @@ import Modal from "react-modal";
 export const StyledSignup = styled.form`
   background-color: dodgerblue;
   margin: 0 auto;
-  width: 75%;
+  width: 85%;
+  max-width: 1400px;
   display: block;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 5px;
 `;
 
 export const StyledInput = styled.input`
-  width: 70%;
+  width: 75%;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 16px;
+  padding: 5px;
+  margin: 5px;
 `;
 
 export const StyledP = styled.p`
-  font-size: 8px;
+  font-size: 10px;
+  margin: 5px;
 `;
 
 export const StyledGoogleButton = styled.button`
-  height: 2em;
+  margin-top: 15px;
+  height: 2.5em;
   border-radius: 5px;
   background-color: red;
+  font-size: 21px;
+`;
+
+export const StyledButton = styled.button`
+  height: 2em;
+  border-radius: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
+const StyledCard = styled.div`
+  margin: 0 auto;
+  width: 85%;
+  max-width: 1400px;
+  display: block;
+  padding: 5px;
+  background-color: dodgerblue;
+  text-align: center;
 `;
 
 function Signup({ username, isLoggedIn }) {
@@ -182,11 +205,18 @@ function Signup({ username, isLoggedIn }) {
           </>
         ) : (
           <>
+            <h3>Create Your Account</h3>
+            <StyledCard>
+              <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+                Sign up with Google
+              </StyledGoogleButton>
+              <hr></hr>
+            </StyledCard>
             <StyledSignup key={formKey} onSubmit={handleSubmit}>
+              <h4>Register</h4>
               <StyledInput
                 required
-                minLength="2"
-                maxLength="25"
+                maxLength="75"
                 name="username"
                 placeholder="pick a username"
                 onChange={handleChange}
@@ -196,13 +226,13 @@ function Signup({ username, isLoggedIn }) {
                 type="email"
                 required
                 minLength="6"
-                maxLength="50"
+                maxLength="75"
                 name="email"
                 placeholder="your email"
                 onChange={handleChange}
               ></StyledInput>
               <br></br>
-              <StyledP>Password must be at least 6 characters long</StyledP>
+              <br></br>
               <StyledInput
                 required
                 placeholder="create a password"
@@ -217,19 +247,30 @@ function Signup({ username, isLoggedIn }) {
                 type="password"
                 onChange={handleChange}
               ></StyledInput>
-              <br></br>
-              <button type="submit">create my account</button>
-              <br></br>
-              <StyledP>Already have an account?</StyledP>
-              <StyledP>
-                <Link to="/signin">sign in</Link>
-              </StyledP>
+              <StyledP>Password must be at least 6 characters long</StyledP>
+              <StyledGoogleButton type="submit">
+                create my account
+              </StyledGoogleButton>
+              <hr></hr>
+              <div>
+                <p>
+                  Already have an account?
+                  <br></br>
+                  <StyledButton>
+                    <Link to="/signin">sign in</Link>
+                  </StyledButton>
+                </p>
+              </div>
             </StyledSignup>
-            <button onClick={() => setModal(true)}>reset passowrd</button>
-            <p>or</p>
-            <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-              Sign up with google
-            </StyledGoogleButton>
+            <StyledCard>
+              <p>
+                Forgot Your Password?
+                <br></br>
+                <StyledButton onClick={() => setModal(true)}>
+                  reset password
+                </StyledButton>
+              </p>
+            </StyledCard>
           </>
         )}
       </div>

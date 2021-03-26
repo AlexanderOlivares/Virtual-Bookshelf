@@ -41,13 +41,26 @@ function Shlef({ user_UID, isLoggedIn, username }) {
     return (
       modalTargetBook && (
         <Modal
+          style={{
+            overlay: {
+              position: "fixed",
+              backgroundColor: "rgba(255, 255, 255, 0.75)",
+            },
+            content: {
+              position: "absolute",
+              border: "1px solid #ccc",
+              background: "#fff",
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              textAlign: "center",
+              padding: "20px",
+            },
+          }}
           isOpen={modal}
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
           <img
-            width="128"
-            height="195"
             src={modalTargetBook.thumbnail_URL}
             alt={modalTargetBook.title}
           ></img>

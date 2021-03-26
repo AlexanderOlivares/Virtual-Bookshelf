@@ -128,16 +128,34 @@ function Search({ user_UID, isLoggedIn }) {
     return (
       modalTargetBook && (
         <Modal
+          style={{
+            overlay: {
+              position: "fixed",
+              backgroundColor: "rgba(255, 255, 255, 0.75)",
+            },
+            content: {
+              position: "absolute",
+              border: "1px solid #ccc",
+              background: "#fff",
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              textAlign: "center",
+              padding: "20px",
+            },
+          }}
           isOpen={modal}
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
-          <img
-            src={modalTargetBook.volumeInfo.imageLinks.thumbnail}
-            alt={modalTargetBook.volumeInfo.title}
-          ></img>
-          <p>{modalTargetBook.volumeInfo.description}</p>
-          <p>{`by ${modalTargetBook.volumeInfo.authors}`}</p>
+          <div>
+            <img
+              src={modalTargetBook.volumeInfo.imageLinks.thumbnail}
+              alt={modalTargetBook.volumeInfo.title}
+            ></img>
+            <br></br>
+            <p>{modalTargetBook.volumeInfo.description}</p>
+            <p>{`by ${modalTargetBook.volumeInfo.authors}`}</p>
+          </div>
           <div>
             <button onClick={() => toggleModal()}>close</button>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { StyledBook, StyledContainer } from "./Search";
+import styled, { StyledBook, StyledContainer } from "./Search";
 import { v4 as uuidv4 } from "uuid";
 import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
@@ -46,7 +46,6 @@ function Home({ isLoggedIn, username, user_UID }) {
           .then(() => console.log("book deleted"))
           .catch(error => console.error("could not delete book" + error));
 
-        // THIS LINE COULD BE TROUBLE
         setHomeList(homeList.filter(e => e.title !== book.title));
       } else {
         book_ID
@@ -82,6 +81,31 @@ function Home({ isLoggedIn, username, user_UID }) {
     return (
       modalTargetBook && (
         <Modal
+          style={{
+            overlay: {
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(255, 255, 255, 0.75)",
+            },
+            content: {
+              position: "absolute",
+              top: "40px",
+              left: "40px",
+              right: "40px",
+              bottom: "40px",
+              border: "1px solid #ccc",
+              background: "#fff",
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              borderRadius: "4px",
+              outline: "none",
+              textAlign: "center",
+              padding: "20px",
+            },
+          }}
           isOpen={modal}
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
@@ -89,8 +113,8 @@ function Home({ isLoggedIn, username, user_UID }) {
           <img
             src={modalTargetBook.book_image}
             alt={modalTargetBook.title}
-            width="128"
-            height="195"
+            // width="128"
+            // height="195"
           ></img>
           <p>{modalTargetBook.description}</p>
           <div>
@@ -138,8 +162,12 @@ function Home({ isLoggedIn, username, user_UID }) {
       {isLoggedIn ? (
         <div>
           <p>{`user icon ${username}`}</p>
-          <button>go to my shelf</button>
-          <button>search all books</button>
+          <button>
+            <Link to="/shelf">go to my shelf</Link>
+          </button>
+          <button>
+            <Link to="/search">search all books</Link>
+          </button>
         </div>
       ) : (
         <>
