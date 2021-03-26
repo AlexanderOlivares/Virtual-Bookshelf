@@ -89,6 +89,8 @@ function Home({ isLoggedIn, username, user_UID }) {
           <img
             src={modalTargetBook.book_image}
             alt={modalTargetBook.title}
+            width="128"
+            height="195"
           ></img>
           <p>{modalTargetBook.description}</p>
           <div>

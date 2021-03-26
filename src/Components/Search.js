@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 export const StyledBook = styled.div`
   margin: 0 auto;
-  background-color: green;
   padding: 5px;
   flex-grow: 1;
 `;
@@ -76,6 +75,8 @@ function Search({ user_UID, isLoggedIn }) {
 
     setFormKey(uuidv4());
   }
+
+  console.log(googleBooksResults);
 
   /// SO THIS WILL CREATE A COLLECTION
   function addOrRemoveFromList(e) {
@@ -170,6 +171,8 @@ function Search({ user_UID, isLoggedIn }) {
             return (
               <StyledBook key={uuidv4()}>
                 <img
+                  width="128"
+                  height="195"
                   src={e.volumeInfo.imageLinks.thumbnail}
                   alt={e.volumeInfo.title}
                 ></img>

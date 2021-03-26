@@ -1,6 +1,15 @@
 import React from "react";
 import { auth } from "./firebase";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const StyledNav = styled.nav`
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  font-size: 20px;
+  background-color: red;
+`;
 
 function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
   function handleLogout() {
@@ -17,7 +26,7 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
   }
 
   return (
-    <div>
+    <StyledNav>
       <span style={{ padding: 10 }}>
         <Link to="/">home</Link>
       </span>
@@ -37,7 +46,7 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
           <Link to="/signin">Sign in</Link>
         </button>
       )}
-    </div>
+    </StyledNav>
   );
 }
 

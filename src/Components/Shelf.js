@@ -46,6 +46,8 @@ function Shlef({ user_UID, isLoggedIn, username }) {
           onRequestClose={() => toggleModal()}
         >
           <img
+            width="128"
+            height="195"
             src={modalTargetBook.thumbnail_URL}
             alt={modalTargetBook.title}
           ></img>
@@ -127,21 +129,11 @@ function Shlef({ user_UID, isLoggedIn, username }) {
         {isLoggedInAndList && (
           <button onClick={() => setEmailModal(true)}>email shelf</button>
         )}
-        {!list.length && (
-          <>
-            <h4>Seach for books and create your shelf!</h4>
-            <div>
-              <button>
-                <Link to="/search">Search</Link>
-              </button>
-            </div>
-          </>
-        )}
       </div>
       <StyledContainer>
         {!list.length ? (
           <>
-            <h4>Seach for books and create your shelf!</h4>
+            <h4>Seach for books and build your shelf!</h4>
             <div>
               <button>
                 <Link to="/search">Search</Link>
@@ -152,7 +144,12 @@ function Shlef({ user_UID, isLoggedIn, username }) {
           list.map((e, index) => {
             return (
               <StyledBook key={uuidv4()}>
-                <img src={e.thumbnail_URL} alt={e.title}></img>
+                <img
+                  src={e.thumbnail_URL}
+                  alt={e.title}
+                  width="128"
+                  height="195"
+                ></img>
                 <br></br>
                 <button onClick={() => toggleModal(index)}>info</button>
                 {isLoggedIn && (
