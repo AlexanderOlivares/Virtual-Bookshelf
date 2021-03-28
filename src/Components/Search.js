@@ -4,6 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import Modal from "react-modal";
 import styled from "styled-components";
+import { GiArchiveResearch } from "react-icons/gi";
+import { StyledSignup } from "./Signup";
+import { StyledActiveUser } from "./Home";
+import { FiUserCheck } from "react-icons/fi";
 
 export const StyledBook = styled.div`
   margin: 0 auto;
@@ -18,10 +22,9 @@ export const StyledContainer = styled.div`
   flex-wrap: wrap;
   justify-content: stretch;
   align-items: center;
-  background-color: dodgerblue;
 `;
 
-function Search({ user_UID, isLoggedIn }) {
+function Search({ user_UID, isLoggedIn, username }) {
   const API_KEY = process.env.REACT_APP_FIREBASE_GOOGLE_BOOKS_API_KEY;
   const [searchInput, setSearchInput] = useState("");
   const [googleBooksResults, setGoogleBooksResults] = useState([]);
@@ -40,8 +43,6 @@ function Search({ user_UID, isLoggedIn }) {
       }));
       setList(data);
     });
-
-    // return () => getBooksfromDb;
   }, []);
 
   function handleChange(e) {
@@ -134,8 +135,9 @@ function Search({ user_UID, isLoggedIn }) {
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
-              position: "absolute",
-              border: "1px solid #ccc",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               background: "#fff",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
@@ -173,7 +175,14 @@ function Search({ user_UID, isLoggedIn }) {
 
   return (
     <div>
+      {isLoggedIn && (
+        <div>
+          <FiUserCheck />
+          <StyledActiveUser>{`${username}`}</StyledActiveUser>
+        </div>
+      )}
       <h1>Search Books</h1>
+      <GiArchiveResearch size={100} style={{ margin: 30 }} />
       {isLoggedIn ? (
         <h4>to add books to your shelf</h4>
       ) : (

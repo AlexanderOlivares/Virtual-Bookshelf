@@ -2,9 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { db, auth, google } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
-import Home from "./Home";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 import Search from "./Search";
 import Modal from "react-modal";
 
@@ -31,11 +31,11 @@ export const StyledP = styled.p`
 `;
 
 export const StyledGoogleButton = styled.button`
-  margin-top: 15px;
   height: 2.5em;
   border-radius: 5px;
   background-color: red;
-  font-size: 21px;
+  font-size: 18px;
+  margin: 10px;
 `;
 
 export const StyledButton = styled.button`
@@ -208,7 +208,7 @@ function Signup({ username, isLoggedIn }) {
             <h3>Create Your Account</h3>
             <StyledCard>
               <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-                Sign up with Google
+                {<FcGoogle />} Sign up with Google
               </StyledGoogleButton>
               <hr></hr>
             </StyledCard>

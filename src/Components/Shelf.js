@@ -3,9 +3,13 @@ import { useState, useEffect } from "react";
 import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
 import { StyledBook, StyledContainer } from "./Search";
+import { StyledSignup, StyledInput, StyledButton } from "./Signup";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
 import { Link } from "react-router-dom";
+import { GiBookshelf } from "react-icons/gi";
+import { StyledActiveUser } from "./Home";
+import { FiUserCheck } from "react-icons/fi";
 
 function Shlef({ user_UID, isLoggedIn, username }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
@@ -47,8 +51,9 @@ function Shlef({ user_UID, isLoggedIn, username }) {
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
-              position: "absolute",
-              border: "1px solid #ccc",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               background: "#fff",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
@@ -61,6 +66,7 @@ function Shlef({ user_UID, isLoggedIn, username }) {
           onRequestClose={() => toggleModal()}
         >
           <img
+            width="128"
             src={modalTargetBook.thumbnail_URL}
             alt={modalTargetBook.title}
           ></img>
@@ -118,18 +124,43 @@ function Shlef({ user_UID, isLoggedIn, username }) {
 
   function renderEmailModal() {
     return (
-      <Modal isOpen={emailModal} onRequestClose={() => setEmailModal(false)}>
+      <Modal
+        isOpen={emailModal}
+        onRequestClose={() => setEmailModal(false)}
+        style={{
+          overlay: {
+            position: "fixed",
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+          },
+          content: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: "#fff",
+            overflow: "auto",
+            webkitoverflowscrolling: "touch",
+            textAlign: "center",
+            padding: "20px",
+          },
+        }}
+      >
         <>
-          <p> email this bookshelf to:</p>
-          <form className="contact-form" onSubmit={sendEmail}>
+          <StyledSignup className="contact-form" onSubmit={sendEmail}>
+            <h4>Share your bookshelf</h4>
+            <p> email this shelf to:</p>
             <input type="hidden" name="username" value={username} />
             <input type="hidden" name="link" value={window.location.href} />
-            <input type="email" name="email" />
-            <button type="submit">share shelf</button>
-          </form>
-          <div>
-            <button onClick={() => setEmailModal(false)}>close</button>
-          </div>
+            <StyledInput type="email" name="email" />
+            <StyledButton type="submit">share shelf</StyledButton>
+            <div>
+              <button
+                style={{ marginTop: 15, borderRadius: 5 }}
+                onClick={() => setEmailModal(false)}
+              >
+                close
+              </button>
+            </div>
+          </StyledSignup>
         </>
       </Modal>
     );
@@ -137,8 +168,14 @@ function Shlef({ user_UID, isLoggedIn, username }) {
 
   return (
     <>
+      {isLoggedIn && (
+        <div>
+          <FiUserCheck />
+          <StyledActiveUser>{`${username}`}</StyledActiveUser>
+        </div>
+      )}
       <div>
-        <h1>My Book List</h1>
+        <h1>My Shelf</h1>
         {isLoggedInAndList && (
           <button onClick={() => setEmailModal(true)}>email shelf</button>
         )}
@@ -146,11 +183,15 @@ function Shlef({ user_UID, isLoggedIn, username }) {
       <StyledContainer>
         {!list.length ? (
           <>
-            <h4>Seach for books and build your shelf!</h4>
-            <div>
-              <button>
+            <div style={{ margin: "0 auto", paddingTop: 40 }}>
+              <h4>Seach for books and build your shelf</h4>
+              <button style={{ margin: 30 }}>
                 <Link to="/search">Search</Link>
               </button>
+            </div>
+            <br></br>
+            <div style={{ margin: "0 auto", padding: 100 }}>
+              <GiBookshelf size={170} />
             </div>
           </>
         ) : (

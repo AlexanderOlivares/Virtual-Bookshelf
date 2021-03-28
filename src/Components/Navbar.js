@@ -2,6 +2,9 @@ import React from "react";
 import { auth } from "./firebase";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { GiBookshelf } from "react-icons/gi";
+import { GoSearch, GoHome } from "react-icons/go";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 const StyledNav = styled.nav`
   position: -webkit-sticky; /* Safari */
@@ -9,6 +12,17 @@ const StyledNav = styled.nav`
   top: 0;
   font-size: 20px;
   background-color: red;
+  padding: 15px;
+`;
+
+const StyledNavItem = styled.span`
+  padding: 10px;
+  margin: 10px;
+`;
+
+const StyledNavButton = styled.button`
+  border: none;
+  font-size: 14px;
 `;
 
 function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
@@ -27,24 +41,24 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
 
   return (
     <StyledNav>
-      <span style={{ padding: 10 }}>
-        <Link to="/">home</Link>
-      </span>
-      <span style={{ padding: 10 }}>
-        <Link to="/shelf">shelf</Link>
-      </span>
-      <span>nm</span>
-      <span style={{ padding: 10 }}>
-        <Link to="/search">Search</Link>
-      </span>
+      <StyledNavItem>
+        <Link to="/">{<GoHome />}</Link>
+      </StyledNavItem>
+      <StyledNavItem>
+        <Link to="/shelf">{<GiBookshelf />}</Link>
+      </StyledNavItem>
+      <StyledNavItem>{<FaMoon />}</StyledNavItem>
+      <StyledNavItem>
+        <Link to="/search">{<GoSearch />}</Link>
+      </StyledNavItem>
       {isLoggedIn ? (
-        <button style={{ padding: 5 }} onClick={handleLogout}>
+        <StyledNavButton onClick={handleLogout}>
           <Link to="/">Sign Out</Link>
-        </button>
+        </StyledNavButton>
       ) : (
-        <button style={{ padding: 5 }}>
+        <StyledNavButton>
           <Link to="/signin">Sign in</Link>
-        </button>
+        </StyledNavButton>
       )}
     </StyledNav>
   );

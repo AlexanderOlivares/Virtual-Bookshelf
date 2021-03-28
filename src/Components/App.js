@@ -77,7 +77,11 @@ function App() {
                 />
               </Route>
               <Route exact path="/search">
-                <Search user_UID={user_UID} isLoggedIn={isLoggedIn} />
+                <Search
+                  user_UID={user_UID}
+                  isLoggedIn={isLoggedIn}
+                  username={username}
+                />
               </Route>
               <Route exact path="/signin">
                 <SignIn

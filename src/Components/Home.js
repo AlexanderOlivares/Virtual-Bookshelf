@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled, { StyledBook, StyledContainer } from "./Search";
+import { StyledBook, StyledContainer } from "./Search";
+import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
 import { StyledGoogleButton } from "./Signup";
+import { FcGoogle } from "react-icons/fc";
+import { FaBookReader } from "react-icons/fa";
+import { FiUserCheck } from "react-icons/fi";
 Modal.setAppElement("#root");
+
+const StyledAbout = styled.p`
+  margin: 0 auto;
+  max-width: 75%;
+  padding: 20px;
+`;
+
+export const StyledActiveUser = styled.p`
+  font-size: 16px;
+  display: inline;
+  padding: 10px;
+`;
+
+const StyledHomeButtons = styled.button`
+  display: inline;
+  margin: 20px;
+  padding: 5px;
+`;
 
 function Home({ isLoggedIn, username, user_UID }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
@@ -88,6 +110,7 @@ function Home({ isLoggedIn, username, user_UID }) {
               left: 0,
               right: 0,
               bottom: 0,
+              textAlign: "center",
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
@@ -113,6 +136,7 @@ function Home({ isLoggedIn, username, user_UID }) {
           <img
             src={modalTargetBook.book_image}
             alt={modalTargetBook.title}
+            width="250"
             // width="128"
             // height="195"
           ></img>
@@ -160,31 +184,36 @@ function Home({ isLoggedIn, username, user_UID }) {
   return (
     <div>
       {isLoggedIn ? (
-        <div>
-          <p>{`user icon ${username}`}</p>
-          <button>
+        <>
+          <div>
+            <FiUserCheck />
+            <StyledActiveUser>{`${username}`}</StyledActiveUser>
+          </div>
+          <StyledHomeButtons>
             <Link to="/shelf">go to my shelf</Link>
-          </button>
-          <button>
+          </StyledHomeButtons>
+          <StyledHomeButtons>
             <Link to="/search">search all books</Link>
-          </button>
-        </div>
+          </StyledHomeButtons>
+        </>
       ) : (
         <>
-          <h1>My Virtual Bookshelf</h1>
-          <p>
+          <h1 style={{ padding: 10 }}>My Virtual Bookshelf</h1>
+          <FaBookReader size={72}></FaBookReader>
+          <StyledAbout>
             Do you love e-books and audiobooks but miss putting finished books
             on your bookshelf? Now you have a digital shelf to display your
-            collection.
-          </p>
+            collection. Create your virtual bookshelf and show people what
+            you've been reading!
+            <br></br>
+          </StyledAbout>
           <div>
-            <hr></hr>
             <h5>Create an Account or sign up with Google</h5>
-            <button>
-              <Link to="/signup">Sign up now!</Link>
-            </button>
+            <StyledGoogleButton>
+              <Link to="/signup">Sign up</Link>
+            </StyledGoogleButton>
             <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-              Sign up with google
+              {<FcGoogle />} Sign up with Google
             </StyledGoogleButton>
           </div>
         </>
@@ -217,6 +246,12 @@ function Home({ isLoggedIn, username, user_UID }) {
             })}
       </div>
       {renderModal(modalIndex)}
+      <StyledAbout style={{ marginBottom: -15 }}>
+        Create an account to add books to your shelf
+      </StyledAbout>
+      <StyledHomeButtons>
+        <Link to="/signup">Sign up</Link>
+      </StyledHomeButtons>
     </div>
   );
 }

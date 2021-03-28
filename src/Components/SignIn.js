@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { auth, google } from "./firebase";
 import Home from "./Home";
+import { FaBookReader } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import {
   StyledGoogleButton,
   StyledButton,
@@ -84,9 +86,12 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
     <div>
       {!isLoggedIn ? (
         <div>
+          <h1>Sign in</h1>
           {/* { this is for signin just reusing signup styled coponent} */}
+          <div>
+            <FaBookReader size={100} style={{ margin: 30 }}></FaBookReader>
+          </div>
           <StyledSignup key={formKey} onSubmit={handleSubmit}>
-            <p>Sign in</p>
             <StyledInput
               required
               name="email"
@@ -106,7 +111,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
             <StyledP>or</StyledP>
           </StyledSignup>
           <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-            Sign in with google
+            {<FcGoogle />} Sign up with Google
           </StyledGoogleButton>
         </div>
       ) : (
