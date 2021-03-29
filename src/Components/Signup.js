@@ -9,7 +9,7 @@ import Search from "./Search";
 import Modal from "react-modal";
 
 export const StyledSignup = styled.form`
-  background-color: dodgerblue;
+  background-color: #eeeeee;
   margin: 0 auto;
   width: 85%;
   max-width: 1400px;
@@ -26,14 +26,14 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledP = styled.p`
-  font-size: 10px;
-  margin: 5px;
+  font-size: 12px;
+  margin: 10px;
 `;
 
 export const StyledGoogleButton = styled.button`
   height: 2.5em;
   border-radius: 5px;
-  background-color: red;
+  background-color: #d84b37;
   font-size: 18px;
   margin: 10px;
 `;
@@ -43,16 +43,16 @@ export const StyledButton = styled.button`
   border-radius: 5px;
   font-size: 16px;
   border-radius: 5px;
-  margin-top: 10px;
+  margin: 20px;
+  background-color: #00adb5;
 `;
 
-const StyledCard = styled.div`
+export const StyledCard = styled.div`
   margin: 0 auto;
   width: 85%;
   max-width: 1400px;
   display: block;
   padding: 5px;
-  background-color: dodgerblue;
   text-align: center;
 `;
 
@@ -150,25 +150,45 @@ function Signup({ username, isLoggedIn }) {
       });
   }
 
-  // function toggleModal() {
-  //   setModal(prev=> !prev);
-  // }
-
   function renderModal() {
     return (
-      <Modal isOpen={modal} onRequestClose={() => setModal(false)}>
+      <Modal
+        isOpen={modal}
+        onRequestClose={() => setModal(false)}
+        style={{
+          overlay: {
+            position: "fixed",
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+          },
+          content: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: "#fff",
+            overflow: "auto",
+            webkitoverflowscrolling: "touch",
+            textAlign: "center",
+            padding: "20px",
+          },
+        }}
+      >
         <StyledSignup onSubmit={resetPassword}>
           <h3>Password Reset</h3>
           <p>An email with reset instructions will be sent to:</p>
           <input
+            style={{ margin: 20 }}
             onChange={handlePassInput}
             placeholder="yourname@email.com"
             type="email"
             name="email"
           ></input>
           <br></br>
-          <button type="submit">send email</button>
-          <button onClick={() => setModal(false)}>cancel</button>
+          <button type="submit" style={{ margin: 5 }}>
+            send email
+          </button>
+          <button onClick={() => setModal(false)} style={{ margin: 5 }}>
+            cancel
+          </button>
         </StyledSignup>
       </Modal>
     );
@@ -208,9 +228,8 @@ function Signup({ username, isLoggedIn }) {
             <h3>Create Your Account</h3>
             <StyledCard>
               <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-                {<FcGoogle />} Sign up with Google
+                {<FcGoogle size={25} />} Sign up with Google
               </StyledGoogleButton>
-              <hr></hr>
             </StyledCard>
             <StyledSignup key={formKey} onSubmit={handleSubmit}>
               <h4>Register</h4>
@@ -248,9 +267,7 @@ function Signup({ username, isLoggedIn }) {
                 onChange={handleChange}
               ></StyledInput>
               <StyledP>Password must be at least 6 characters long</StyledP>
-              <StyledGoogleButton type="submit">
-                create my account
-              </StyledGoogleButton>
+              <StyledButton type="submit">create my account</StyledButton>
               <hr></hr>
               <div>
                 <p>

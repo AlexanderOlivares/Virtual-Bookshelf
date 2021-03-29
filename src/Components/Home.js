@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { StyledBook, StyledContainer } from "./Search";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
@@ -29,7 +29,7 @@ const StyledHomeButtons = styled.button`
   padding: 5px;
 `;
 
-function Home({ isLoggedIn, username, user_UID }) {
+function Home({ isLoggedIn, username, user_UID, theme }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
 
   const [bestsellersList, setBestsellersList] = useState([]);
@@ -198,8 +198,8 @@ function Home({ isLoggedIn, username, user_UID }) {
         </>
       ) : (
         <>
-          <h1 style={{ padding: 10 }}>My Virtual Bookshelf</h1>
-          <FaBookReader size={72}></FaBookReader>
+          <h1>My Virtual Bookshelf</h1>
+          <FaBookReader size={140}></FaBookReader>
           <StyledAbout>
             Do you love e-books and audiobooks but miss putting finished books
             on your bookshelf? Now you have a digital shelf to display your
@@ -209,11 +209,11 @@ function Home({ isLoggedIn, username, user_UID }) {
           </StyledAbout>
           <div>
             <h5>Create an Account or sign up with Google</h5>
-            <StyledGoogleButton>
+            <StyledGoogleButton style={{ backgroundColor: "#00adb5" }}>
               <Link to="/signup">Sign up</Link>
             </StyledGoogleButton>
             <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-              {<FcGoogle />} Sign up with Google
+              {<FcGoogle size={25} />} Sign up with Google
             </StyledGoogleButton>
           </div>
         </>

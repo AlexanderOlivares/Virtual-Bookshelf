@@ -183,16 +183,18 @@ function Shlef({ user_UID, isLoggedIn, username }) {
       <StyledContainer>
         {!list.length ? (
           <>
+            <div style={{ margin: "0 auto", padding: 30 }}>
+              <GiBookshelf size={170} />
+            </div>
             <div style={{ margin: "0 auto", paddingTop: 40 }}>
-              <h4>Seach for books and build your shelf</h4>
+              <h4>
+                Your shelf is empty. Search for books to add to your shelf
+              </h4>
               <button style={{ margin: 30 }}>
                 <Link to="/search">Search</Link>
               </button>
             </div>
             <br></br>
-            <div style={{ margin: "0 auto", padding: 100 }}>
-              <GiBookshelf size={170} />
-            </div>
           </>
         ) : (
           list.map((e, index) => {

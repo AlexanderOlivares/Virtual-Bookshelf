@@ -22,6 +22,7 @@ export const StyledContainer = styled.div`
   flex-wrap: wrap;
   justify-content: stretch;
   align-items: center;
+  padding: 15px;
 `;
 
 function Search({ user_UID, isLoggedIn, username }) {
@@ -182,11 +183,11 @@ function Search({ user_UID, isLoggedIn, username }) {
         </div>
       )}
       <h1>Search Books</h1>
-      <GiArchiveResearch size={100} style={{ margin: 30 }} />
-      {isLoggedIn ? (
-        <h4>to add books to your shelf</h4>
-      ) : (
-        <h6>Sign in or create an account to add books to your shelf</h6>
+      {!googleBooksResults.length && (
+        <GiArchiveResearch size={170} style={{ margin: 20 }} />
+      )}
+      {!isLoggedIn && (
+        <h4>Sign in or create an account to add books to your shelf</h4>
       )}
       <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>

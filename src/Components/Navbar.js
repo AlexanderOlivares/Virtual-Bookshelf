@@ -5,13 +5,14 @@ import styled from "styled-components";
 import { GiBookshelf } from "react-icons/gi";
 import { GoSearch, GoHome } from "react-icons/go";
 import { FaSun, FaMoon } from "react-icons/fa";
+import { lightTheme, darkTheme } from "./Theme";
 
 const StyledNav = styled.nav`
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
   font-size: 20px;
-  background-color: red;
+  background-color: #00adb5;
   padding: 15px;
 `;
 
@@ -22,10 +23,22 @@ const StyledNavItem = styled.span`
 
 const StyledNavButton = styled.button`
   border: none;
+  background-color: #eeeeee;
+  border: 2px solid #222831;
   font-size: 14px;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 5px;
 `;
 
-function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
+function Navbar({
+  theme,
+  setTheme,
+  setIsLoggedIn,
+  isLoggedIn,
+  setUsername,
+  setUserEmail,
+}) {
   function handleLogout() {
     auth
       .signOut()
@@ -39,6 +52,16 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
       });
   }
 
+  function handleThemeToggle() {
+    let updatedTheme = theme === darkTheme ? lightTheme : darkTheme;
+    setTheme(updatedTheme);
+    return theme === lightTheme ? (
+      <FaMoon />
+    ) : (
+      <FaSun style={{ color: "green" }} />
+    );
+  }
+
   return (
     <StyledNav>
       <StyledNavItem>
@@ -47,7 +70,9 @@ function Navbar({ setIsLoggedIn, isLoggedIn, setUsername, setUserEmail }) {
       <StyledNavItem>
         <Link to="/shelf">{<GiBookshelf />}</Link>
       </StyledNavItem>
-      <StyledNavItem>{<FaMoon />}</StyledNavItem>
+      <StyledNavItem onClick={handleThemeToggle}>
+        {theme === lightTheme ? <FaMoon /> : <FaSun />}
+      </StyledNavItem>
       <StyledNavItem>
         <Link to="/search">{<GoSearch />}</Link>
       </StyledNavItem>

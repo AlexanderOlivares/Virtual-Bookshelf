@@ -5,12 +5,14 @@ import { auth, google } from "./firebase";
 import Home from "./Home";
 import { FaBookReader } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import Modal from "react-modal";
 import {
   StyledGoogleButton,
   StyledButton,
   StyledInput,
   StyledSignup,
   StyledP,
+  StyledCard,
 } from "./Signup";
 
 function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
@@ -18,7 +20,8 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
     email: "",
     password: "",
   });
-
+  const [modal, setModal] = useState(false);
+  const [resetPassInupt, setResetPassInput] = useState("");
   const [formKey, setFormKey] = useState(uuidv4());
 
   function handleChange(e) {
@@ -82,6 +85,72 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
       });
   }
 
+  function renderModal() {
+    return (
+      <Modal
+        isOpen={modal}
+        onRequestClose={() => setModal(false)}
+        style={{
+          overlay: {
+            position: "fixed",
+            backgroundColor: "rgba(255, 255, 255, 0.75)",
+          },
+          content: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: "#fff",
+            overflow: "auto",
+            webkitoverflowscrolling: "touch",
+            textAlign: "center",
+            padding: "20px",
+          },
+        }}
+      >
+        <StyledSignup onSubmit={resetPassword}>
+          <h3>Password Reset</h3>
+          <p>An email with reset instructions will be sent to:</p>
+          <input
+            style={{ margin: 20 }}
+            onChange={handlePassInput}
+            placeholder="yourname@email.com"
+            type="email"
+            name="email"
+          ></input>
+          <br></br>
+          <button type="submit" style={{ margin: 5 }}>
+            send email
+          </button>
+          <button onClick={() => setModal(false)} style={{ margin: 5 }}>
+            cancel
+          </button>
+        </StyledSignup>
+      </Modal>
+    );
+  }
+
+  function handlePassInput(e) {
+    setResetPassInput(e.currentTarget.value);
+  }
+
+  function resetPassword(e) {
+    e.preventDefault();
+    const resetEmail = resetPassInupt;
+    auth
+      .sendPasswordResetEmail(resetEmail)
+      .then(function () {
+        // Email sent.
+        alert("check your email for reset instructions");
+        console.log("check your email for reset instructions");
+        setModal(false);
+      })
+      .catch(function (error) {
+        // An error happened
+        alert(error + "could not send reset password email");
+        console.error(error + "could not send reset password email");
+      });
+  }
+
   return (
     <div>
       {!isLoggedIn ? (
@@ -111,8 +180,20 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
             <StyledP>or</StyledP>
           </StyledSignup>
           <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
-            {<FcGoogle />} Sign up with Google
+            {<FcGoogle size={25} />} Sign up with Google
           </StyledGoogleButton>
+          {/* <StyledCard> */}
+          <div>
+            <p>
+              Forgot Your Password?
+              <br></br>
+              <StyledButton onClick={() => setModal(true)}>
+                reset password
+              </StyledButton>
+            </p>
+            {/* </StyledCard> */}
+          </div>
+          <div>{renderModal()}</div>
         </div>
       ) : (
         <>

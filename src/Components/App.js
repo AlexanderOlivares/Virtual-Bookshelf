@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth, google } from "./firebase";
 import { db } from "./firebase";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import styled, { ThemeProvider } from "styled-components";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
 import Home from "./Home";
@@ -11,8 +12,11 @@ import Shelf from "./Shelf";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import { GlobalStyle } from "./GlobalStyle";
+import { lightTheme, darkTheme } from "./Theme";
 
 function App() {
+  const [theme, setTheme] = useState(lightTheme);
+
   const [username, setUsername] = useState("");
 
   const [user_UID, setUser_UID] = useState(null);
@@ -57,63 +61,67 @@ function App() {
 
   return (
     <>
-      <GlobalStyle />
-      <Router>
-        <div className="App">
-          <Navbar
-            username={username}
-            setUsername={setUsername}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-            setUserEmail={setUserEmail}
-          />
-          <div className="content">
-            <Switch>
-              <Route exact path="/">
-                <Home
-                  username={username}
-                  user_UID={user_UID}
-                  isLoggedIn={isLoggedIn}
-                />
-              </Route>
-              <Route exact path="/search">
-                <Search
-                  user_UID={user_UID}
-                  isLoggedIn={isLoggedIn}
-                  username={username}
-                />
-              </Route>
-              <Route exact path="/signin">
-                <SignIn
-                  username={username}
-                  setUsername={setUsername}
-                  setIsLoggedIn={setIsLoggedIn}
-                  isLoggedIn={isLoggedIn}
-                />
-              </Route>
-              <Route exact path="/signup">
-                <Signup
-                  userEmail={userEmail}
-                  username={username}
-                  setUsername={setUsername}
-                  setIsLoggedIn={setIsLoggedIn}
-                  isLoggedIn={isLoggedIn}
-                />
-              </Route>
-              <Route exact path="/profile">
-                <Profile username={username} isLoggedIn={isLoggedIn} />
-              </Route>
-              <Route exact path="/shelf">
-                <Shelf
-                  username={username}
-                  user_UID={user_UID}
-                  isLoggedIn={isLoggedIn}
-                />
-              </Route>
-            </Switch>
+      <GlobalStyle theme={theme} />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <div className="App">
+            <Navbar
+              theme={theme}
+              setTheme={setTheme}
+              username={username}
+              setUsername={setUsername}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              setUserEmail={setUserEmail}
+            />
+            <div className="content">
+              <Switch>
+                <Route exact path="/">
+                  <Home
+                    username={username}
+                    user_UID={user_UID}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </Route>
+                <Route exact path="/search">
+                  <Search
+                    user_UID={user_UID}
+                    isLoggedIn={isLoggedIn}
+                    username={username}
+                  />
+                </Route>
+                <Route exact path="/signin">
+                  <SignIn
+                    username={username}
+                    setUsername={setUsername}
+                    setIsLoggedIn={setIsLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </Route>
+                <Route exact path="/signup">
+                  <Signup
+                    userEmail={userEmail}
+                    username={username}
+                    setUsername={setUsername}
+                    setIsLoggedIn={setIsLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </Route>
+                <Route exact path="/profile">
+                  <Profile username={username} isLoggedIn={isLoggedIn} />
+                </Route>
+                <Route exact path="/shelf">
+                  <Shelf
+                    username={username}
+                    user_UID={user_UID}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </Route>
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </ThemeProvider>
     </>
   );
 }
