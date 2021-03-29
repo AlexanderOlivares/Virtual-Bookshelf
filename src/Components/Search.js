@@ -8,9 +8,12 @@ import { GiArchiveResearch } from "react-icons/gi";
 import { StyledSignup } from "./Signup";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BiInfoSquare } from "react-icons/bi";
+import { lightTheme, darkTheme } from "./Theme";
 
 export const StyledBook = styled.div`
-  margin: 0 auto;
+  margin-top: 35px;
   padding: 5px;
   flex-grow: 1;
 `;
@@ -25,7 +28,7 @@ export const StyledContainer = styled.div`
   padding: 15px;
 `;
 
-function Search({ user_UID, isLoggedIn, username }) {
+function Search({ user_UID, isLoggedIn, username, theme }) {
   const API_KEY = process.env.REACT_APP_FIREBASE_GOOGLE_BOOKS_API_KEY;
   const [searchInput, setSearchInput] = useState("");
   const [googleBooksResults, setGoogleBooksResults] = useState([]);
@@ -130,16 +133,17 @@ function Search({ user_UID, isLoggedIn, username }) {
     return (
       modalTargetBook && (
         <Modal
+          theme={theme}
           style={{
             overlay: {
               position: "fixed",
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
+              background: theme.background,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              background: "#fff",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
               textAlign: "center",
@@ -150,12 +154,15 @@ function Search({ user_UID, isLoggedIn, username }) {
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
+          {/* FIGURE OUT HOW TO KEEP AN X STUCK TO TOP FOR CLOSING AFTER SCROLL */}
+          {/* <div style={{ position: "fixed", right: 300 }}>X</div> */}
           <div>
             <img
               src={modalTargetBook.volumeInfo.imageLinks.thumbnail}
               alt={modalTargetBook.volumeInfo.title}
             ></img>
-            <br></br>
+          </div>
+          <div>
             <p>{modalTargetBook.volumeInfo.description}</p>
             <p>{`by ${modalTargetBook.volumeInfo.authors}`}</p>
           </div>
@@ -205,16 +212,20 @@ function Search({ user_UID, isLoggedIn, username }) {
                   alt={e.volumeInfo.title}
                 ></img>
                 <br></br>
-                <button onClick={() => toggleModal(index)}>info</button>
+                <button onClick={() => toggleModal(index)}>
+                  {<BiInfoSquare />}
+                </button>
                 {isLoggedIn && (
                   <button onClick={() => addOrRemoveFromList(e)}>
                     {list.some(
                       x =>
                         x.title === e.volumeInfo.title &&
                         x.thumbnail === e.volumeInfo.imageLinks.thumbnail
-                    )
-                      ? "remove from list"
-                      : "add to list"}
+                    ) ? (
+                      <AiOutlineDelete />
+                    ) : (
+                      "add to shelf"
+                    )}
                   </button>
                 )}
               </StyledBook>

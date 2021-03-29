@@ -9,6 +9,13 @@ import { StyledGoogleButton } from "./Signup";
 import { FcGoogle } from "react-icons/fc";
 import { FaBookReader } from "react-icons/fa";
 import { FiUserCheck } from "react-icons/fi";
+import { BiInfoSquare } from "react-icons/bi";
+import {
+  AiOutlineInfo,
+  AiOutlineDelete,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
+import { lightTheme, darkTheme } from "./Theme";
 Modal.setAppElement("#root");
 
 const StyledAbout = styled.p`
@@ -98,41 +105,35 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     });
   }
 
+  // PASS THEME INTO MODAL SOMEHOW
   function renderModal(modalIndex) {
     let modalTargetBook = bestsellersList[modalIndex];
     return (
       modalTargetBook && (
         <Modal
+          theme={theme}
           style={{
             overlay: {
               position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
               textAlign: "center",
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
               position: "absolute",
-              top: "40px",
-              left: "40px",
-              right: "40px",
-              bottom: "40px",
               border: "1px solid #ccc",
-              background: "#fff",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
-              borderRadius: "4px",
+              borderRadius: "5px",
               outline: "none",
               textAlign: "center",
-              padding: "20px",
+              background: theme.background,
             },
           }}
           isOpen={modal}
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
+          {console.log(theme)}
           <img
             src={modalTargetBook.book_image}
             alt={modalTargetBook.title}
@@ -231,14 +232,18 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
                   <div>{book.title}</div>
                   <div>{book.contributor}</div>
                   <div>Rank: {book.rank}</div>
-                  <button onClick={() => toggleModal(index)}>info</button>
+                  <button onClick={() => toggleModal(index)}>
+                    {<BiInfoSquare size={20} />}
+                  </button>
                   {isLoggedIn && (
                     <button onClick={() => addOrRemoveFromList(book)}>
                       {homeList.some(
                         x => x.title === book.title && x.author === book.author
-                      )
-                        ? "remove from list"
-                        : "add to list"}
+                      ) ? (
+                        <AiOutlineDelete />
+                      ) : (
+                        "add to shelf"
+                      )}
                     </button>
                   )}
                 </StyledBook>

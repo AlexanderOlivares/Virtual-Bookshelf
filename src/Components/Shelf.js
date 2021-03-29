@@ -10,8 +10,11 @@ import { Link } from "react-router-dom";
 import { GiBookshelf } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BiInfoSquare } from "react-icons/bi";
+import { lightTheme, darkTheme } from "./Theme";
 
-function Shlef({ user_UID, isLoggedIn, username }) {
+function Shlef({ user_UID, isLoggedIn, username, theme }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
   const EMAILJS_SERVICEID = process.env.REACT_APP_EMAILJS_SERVICEID;
   const EMAILJS_TEMPLATEID = process.env.REACT_APP_EMAILJS_TEMPLATEID;
@@ -45,16 +48,17 @@ function Shlef({ user_UID, isLoggedIn, username }) {
     return (
       modalTargetBook && (
         <Modal
+          theme={theme}
           style={{
             overlay: {
               position: "fixed",
               backgroundColor: "rgba(255, 255, 255, 0.75)",
             },
             content: {
+              background: theme.background,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              background: "#fff",
               overflow: "auto",
               WebkitOverflowScrolling: "touch",
               textAlign: "center",
@@ -86,22 +90,28 @@ function Shlef({ user_UID, isLoggedIn, username }) {
   }
 
   function removeFromList(e) {
-    const book_ID = db
-      .collection("users")
-      .doc(`${user_UID}`)
-      .collection(`shelf`)
-      .doc(`${e.title}`);
+    const deleteConfirmed = window.confirm(
+      "Are you sure you want to delete this book from your shelf?"
+    );
 
-    book_ID.get().then(docSnapshot => {
-      if (docSnapshot.exists) {
-        book_ID
-          .delete()
-          .then(() => console.log("book deleted"))
-          .catch(error => console.error("could not delete book" + error));
+    if (deleteConfirmed) {
+      const book_ID = db
+        .collection("users")
+        .doc(`${user_UID}`)
+        .collection(`shelf`)
+        .doc(`${e.title}`);
 
-        setList(list.filter(book => book.title === book_ID));
-      }
-    });
+      book_ID.get().then(docSnapshot => {
+        if (docSnapshot.exists) {
+          book_ID
+            .delete()
+            .then(() => console.log("book deleted"))
+            .catch(error => console.error("could not delete book" + error));
+
+          setList(list.filter(book => book.title === book_ID));
+        }
+      });
+    }
   }
 
   function sendEmail(e) {
@@ -125,6 +135,7 @@ function Shlef({ user_UID, isLoggedIn, username }) {
   function renderEmailModal() {
     return (
       <Modal
+        theme={theme}
         isOpen={emailModal}
         onRequestClose={() => setEmailModal(false)}
         style={{
@@ -133,10 +144,10 @@ function Shlef({ user_UID, isLoggedIn, username }) {
             backgroundColor: "rgba(255, 255, 255, 0.75)",
           },
           content: {
+            background: theme.background,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            background: "#fff",
             overflow: "auto",
             webkitoverflowscrolling: "touch",
             textAlign: "center",
@@ -150,7 +161,11 @@ function Shlef({ user_UID, isLoggedIn, username }) {
             <p> email this shelf to:</p>
             <input type="hidden" name="username" value={username} />
             <input type="hidden" name="link" value={window.location.href} />
-            <StyledInput type="email" name="email" />
+            <StyledInput
+              type="email"
+              name="email"
+              placeholder="name@email.com"
+            />
             <StyledButton type="submit">share shelf</StyledButton>
             <div>
               <button
@@ -207,10 +222,12 @@ function Shlef({ user_UID, isLoggedIn, username }) {
                   height="195"
                 ></img>
                 <br></br>
-                <button onClick={() => toggleModal(index)}>info</button>
+                <button onClick={() => toggleModal(index)}>
+                  {<BiInfoSquare />}
+                </button>
                 {isLoggedIn && (
                   <button onClick={() => removeFromList(e)}>
-                    remove from list
+                    {<AiOutlineDelete />}
                   </button>
                 )}
               </StyledBook>

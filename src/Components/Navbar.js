@@ -55,11 +55,6 @@ function Navbar({
   function handleThemeToggle() {
     let updatedTheme = theme === darkTheme ? lightTheme : darkTheme;
     setTheme(updatedTheme);
-    return theme === lightTheme ? (
-      <FaMoon />
-    ) : (
-      <FaSun style={{ color: "green" }} />
-    );
   }
 
   return (

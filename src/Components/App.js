@@ -78,6 +78,7 @@ function App() {
               <Switch>
                 <Route exact path="/">
                   <Home
+                    theme={theme}
                     username={username}
                     user_UID={user_UID}
                     isLoggedIn={isLoggedIn}
@@ -85,6 +86,7 @@ function App() {
                 </Route>
                 <Route exact path="/search">
                   <Search
+                    theme={theme}
                     user_UID={user_UID}
                     isLoggedIn={isLoggedIn}
                     username={username}
@@ -92,6 +94,7 @@ function App() {
                 </Route>
                 <Route exact path="/signin">
                   <SignIn
+                    theme={theme}
                     username={username}
                     setUsername={setUsername}
                     setIsLoggedIn={setIsLoggedIn}
@@ -100,6 +103,7 @@ function App() {
                 </Route>
                 <Route exact path="/signup">
                   <Signup
+                    theme={theme}
                     userEmail={userEmail}
                     username={username}
                     setUsername={setUsername}
@@ -112,6 +116,7 @@ function App() {
                 </Route>
                 <Route exact path="/shelf">
                   <Shelf
+                    theme={theme}
                     username={username}
                     user_UID={user_UID}
                     isLoggedIn={isLoggedIn}

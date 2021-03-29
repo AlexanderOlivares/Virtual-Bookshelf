@@ -6,6 +6,7 @@ import Home from "./Home";
 import { FaBookReader } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Modal from "react-modal";
+import { lightTheme, darkTheme } from "./Theme";
 import {
   StyledGoogleButton,
   StyledButton,
@@ -15,7 +16,7 @@ import {
   StyledCard,
 } from "./Signup";
 
-function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
+function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -88,6 +89,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
   function renderModal() {
     return (
       <Modal
+        theme={theme}
         isOpen={modal}
         onRequestClose={() => setModal(false)}
         style={{
@@ -96,10 +98,10 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername }) {
             backgroundColor: "rgba(255, 255, 255, 0.75)",
           },
           content: {
+            background: theme.background,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            background: "#fff",
             overflow: "auto",
             webkitoverflowscrolling: "touch",
             textAlign: "center",

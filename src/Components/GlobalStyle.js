@@ -21,8 +21,10 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     border-radius: 5px;
-    margin: 5px;
+    margin: 3px;
+    margin-top: 15px;
     border: 2px solid #222831;
     background-color: #eeeeee;
   }
+
  `;

@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import Search from "./Search";
 import Modal from "react-modal";
+import { lightTheme, darkTheme } from "./Theme";
 
 export const StyledSignup = styled.form`
-  background-color: #eeeeee;
   margin: 0 auto;
   width: 85%;
   max-width: 1400px;
@@ -56,7 +56,7 @@ export const StyledCard = styled.div`
   text-align: center;
 `;
 
-function Signup({ username, isLoggedIn }) {
+function Signup({ username, isLoggedIn, theme }) {
   const [modal, setModal] = useState(false);
 
   const [resetPassInupt, setResetPassInput] = useState("");
@@ -153,6 +153,7 @@ function Signup({ username, isLoggedIn }) {
   function renderModal() {
     return (
       <Modal
+        theme={theme}
         isOpen={modal}
         onRequestClose={() => setModal(false)}
         style={{
@@ -161,10 +162,10 @@ function Signup({ username, isLoggedIn }) {
             backgroundColor: "rgba(255, 255, 255, 0.75)",
           },
           content: {
+            background: theme.background,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            background: "#fff",
             overflow: "auto",
             webkitoverflowscrolling: "touch",
             textAlign: "center",
