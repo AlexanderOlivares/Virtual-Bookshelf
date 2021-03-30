@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { GiBookshelf } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 import { lightTheme, darkTheme } from "./Theme";
 
@@ -43,32 +43,40 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
     console.log("useEffect ran");
   }, []);
 
+  const modalStyles = {
+    overlay: {
+      position: "fixed",
+      backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+    content: {
+      background: theme.background,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow: "auto",
+      webkitoverflowscrolling: "touch",
+      textAlign: "center",
+      padding: "20px",
+    },
+  };
+
   function renderModal(modalIndex) {
     let modalTargetBook = list[modalIndex];
     return (
       modalTargetBook && (
         <Modal
           theme={theme}
-          style={{
-            overlay: {
-              position: "fixed",
-              backgroundColor: "rgba(255, 255, 255, 0.75)",
-            },
-            content: {
-              background: theme.background,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              overflow: "auto",
-              WebkitOverflowScrolling: "touch",
-              textAlign: "center",
-              padding: "20px",
-            },
-          }}
+          style={modalStyles}
           isOpen={modal}
-          modalIndex={modalIndex}
+          // modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
+          <button
+            style={{ position: "absolute", top: 5, left: 5, border: "none" }}
+            onClick={() => toggleModal()}
+          >
+            <AiOutlineClose size={20} />
+          </button>
           <img
             width="128"
             src={modalTargetBook.thumbnail_URL}
@@ -138,22 +146,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
         theme={theme}
         isOpen={emailModal}
         onRequestClose={() => setEmailModal(false)}
-        style={{
-          overlay: {
-            position: "fixed",
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            background: theme.background,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            overflow: "auto",
-            webkitoverflowscrolling: "touch",
-            textAlign: "center",
-            padding: "20px",
-          },
-        }}
+        style={modalStyles}
       >
         <>
           <StyledSignup className="contact-form" onSubmit={sendEmail}>
@@ -189,8 +182,11 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
           <StyledActiveUser>{`${username}`}</StyledActiveUser>
         </div>
       )}
+      <h1>My Shelf</h1>
+      <div style={{ margin: "0 auto", padding: 30 }}>
+        <GiBookshelf size={170} />
+      </div>
       <div>
-        <h1>My Shelf</h1>
         {isLoggedInAndList && (
           <button onClick={() => setEmailModal(true)}>email shelf</button>
         )}
@@ -198,9 +194,6 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
       <StyledContainer>
         {!list.length ? (
           <>
-            <div style={{ margin: "0 auto", padding: 30 }}>
-              <GiBookshelf size={170} />
-            </div>
             <div style={{ margin: "0 auto", paddingTop: 40 }}>
               <h4>
                 Your shelf is empty. Search for books to add to your shelf

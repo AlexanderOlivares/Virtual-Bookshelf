@@ -8,7 +8,7 @@ import { GiArchiveResearch } from "react-icons/gi";
 import { StyledSignup } from "./Signup";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineClose, AiOutlineInfo } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 import { lightTheme, darkTheme } from "./Theme";
 
@@ -26,6 +26,14 @@ export const StyledContainer = styled.div`
   justify-content: stretch;
   align-items: center;
   padding: 15px;
+
+  @media (min-width: 900px) {
+    max-width: 65%;
+  }
+
+  @media (min-width: 2500px) {
+    max-width: 45%;
+  }
 `;
 
 function Search({ user_UID, isLoggedIn, username, theme }) {
@@ -128,34 +136,42 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
     });
   }
 
+  const modalStyles = {
+    overlay: {
+      position: "fixed",
+      backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+    content: {
+      background: theme.background,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow: "auto",
+      webkitoverflowscrolling: "touch",
+      textAlign: "center",
+      padding: "20px",
+    },
+  };
+
   function renderModal(modalIndex) {
     let modalTargetBook = googleBooksResults[modalIndex];
     return (
       modalTargetBook && (
         <Modal
           theme={theme}
-          style={{
-            overlay: {
-              position: "fixed",
-              backgroundColor: "rgba(255, 255, 255, 0.75)",
-            },
-            content: {
-              background: theme.background,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              overflow: "auto",
-              WebkitOverflowScrolling: "touch",
-              textAlign: "center",
-              padding: "20px",
-            },
-          }}
+          style={modalStyles}
           isOpen={modal}
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
           {/* FIGURE OUT HOW TO KEEP AN X STUCK TO TOP FOR CLOSING AFTER SCROLL */}
           {/* <div style={{ position: "fixed", right: 300 }}>X</div> */}
+          <button
+            style={{ position: "absolute", top: 5, left: 5, border: "none" }}
+            onClick={() => toggleModal()}
+          >
+            <AiOutlineClose size={20} />
+          </button>
           <div>
             <img
               src={modalTargetBook.volumeInfo.imageLinks.thumbnail}

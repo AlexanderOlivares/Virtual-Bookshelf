@@ -6,7 +6,6 @@ import Home from "./Home";
 import { FaBookReader } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Modal from "react-modal";
-import { lightTheme, darkTheme } from "./Theme";
 import {
   StyledGoogleButton,
   StyledButton,
@@ -86,28 +85,46 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
       });
   }
 
+  const modalStyles = {
+    overlay: {
+      position: "fixed",
+      backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+    content: {
+      background: theme.background,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow: "auto",
+      webkitoverflowscrolling: "touch",
+      textAlign: "center",
+      padding: "20px",
+    },
+  };
+
   function renderModal() {
     return (
       <Modal
         theme={theme}
         isOpen={modal}
         onRequestClose={() => setModal(false)}
-        style={{
-          overlay: {
-            position: "fixed",
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            background: theme.background,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            overflow: "auto",
-            webkitoverflowscrolling: "touch",
-            textAlign: "center",
-            padding: "20px",
-          },
-        }}
+        style={modalStyles}
+        // style={{
+        //   overlay: {
+        //     position: "fixed",
+        //     backgroundColor: "rgba(255, 255, 255, 0.75)",
+        //   },
+        //   content: {
+        //     background: theme.background,
+        //     display: "flex",
+        //     flexDirection: "column",
+        //     alignItems: "center",
+        //     overflow: "auto",
+        //     webkitoverflowscrolling: "touch",
+        //     textAlign: "center",
+        //     padding: "20px",
+        //   },
+        // }}
       >
         <StyledSignup onSubmit={resetPassword}>
           <h3>Password Reset</h3>
@@ -184,7 +201,6 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
           <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
             {<FcGoogle size={25} />} Sign up with Google
           </StyledGoogleButton>
-          {/* <StyledCard> */}
           <div>
             <p>
               Forgot Your Password?
@@ -193,7 +209,6 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
                 reset password
               </StyledButton>
             </p>
-            {/* </StyledCard> */}
           </div>
           <div>{renderModal()}</div>
         </div>

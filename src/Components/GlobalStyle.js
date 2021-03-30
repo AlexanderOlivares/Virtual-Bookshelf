@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     text-align: center;
     width: 85%;
     margin: 0 auto;
-    padding: 30px;
+    padding: 20px;
   }
 
   a { 
@@ -27,4 +27,5 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #eeeeee;
   }
 
+}
  `;

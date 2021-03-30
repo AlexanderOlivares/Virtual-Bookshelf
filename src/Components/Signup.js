@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import Search from "./Search";
 import Modal from "react-modal";
-import { lightTheme, darkTheme } from "./Theme";
 
 export const StyledSignup = styled.form`
   margin: 0 auto;
@@ -150,28 +149,30 @@ function Signup({ username, isLoggedIn, theme }) {
       });
   }
 
+  const modalStyles = {
+    overlay: {
+      position: "fixed",
+      backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+    content: {
+      background: theme.background,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow: "auto",
+      webkitoverflowscrolling: "touch",
+      textAlign: "center",
+      padding: "20px",
+    },
+  };
+
   function renderModal() {
     return (
       <Modal
         theme={theme}
         isOpen={modal}
         onRequestClose={() => setModal(false)}
-        style={{
-          overlay: {
-            position: "fixed",
-            backgroundColor: "rgba(255, 255, 255, 0.75)",
-          },
-          content: {
-            background: theme.background,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            overflow: "auto",
-            webkitoverflowscrolling: "touch",
-            textAlign: "center",
-            padding: "20px",
-          },
-        }}
+        style={modalStyles}
       >
         <StyledSignup onSubmit={resetPassword}>
           <h3>Password Reset</h3>
