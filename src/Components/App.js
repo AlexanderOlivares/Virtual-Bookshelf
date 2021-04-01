@@ -2,7 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import { auth } from "./firebase";
 import { db } from "./firebase";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Navbar from "./Navbar";
 import Home from "./Home";
