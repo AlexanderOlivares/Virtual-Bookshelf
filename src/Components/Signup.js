@@ -79,7 +79,7 @@ function Signup({ username, isLoggedIn, theme }) {
     });
   }
 
-  function handleSubmit(e) {
+  function createAccount(e) {
     e.preventDefault();
     const username = input.username;
     const email = input.email;
@@ -89,7 +89,7 @@ function Signup({ username, isLoggedIn, theme }) {
     let reg = /^.{6,25}$/g;
 
     if (!reg.test(password)) {
-      alert("password must be at least 6 characters long");
+      alert("password must be between 6 and 25 characters long");
       return;
     }
 
@@ -116,22 +116,22 @@ function Signup({ username, isLoggedIn, theme }) {
         });
       })
       .catch(error => {
-        alert(`could not log in ${error.code}`);
-        console.log(error.code);
-        console.log(error.message);
+        alert(
+          `Error. Could not create account. Please Try again. ${error.code}`
+        );
       });
   }
 
-  function handleClick(e) {
+  function createAccountWithGoogle(e) {
     auth
       .signInWithPopup(google)
       .then(result => {
         /** @type {firebase.auth.OAuthCredential} */
         var credential = result.credential;
         // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = credential.accessToken;
+        // var token = credential.accessToken;
         // The signed-in username info.
-        var userCredential = result.user;
+        // var userCredential = result.user;
         return db.collection("users").doc(result.user.uid).set({
           username: result.user.displayName,
           email: result.user.email,
@@ -141,11 +141,9 @@ function Signup({ username, isLoggedIn, theme }) {
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        alert(`could not signup: ${errorCode}${errorMessage}`);
-        console.log([errorCode, errorMessage, credential, email]);
+        // var credential = error.credential;
+        alert(`Could not signup: ${errorCode}. ${errorMessage}`);
       });
   }
 
@@ -183,6 +181,7 @@ function Signup({ username, isLoggedIn, theme }) {
             placeholder="yourname@email.com"
             type="email"
             name="email"
+            required
           ></input>
           <br></br>
           <button type="submit" style={{ margin: 5 }}>
@@ -229,11 +228,14 @@ function Signup({ username, isLoggedIn, theme }) {
           <>
             <h3>Create Your Account</h3>
             <StyledCard>
-              <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+              <StyledGoogleButton
+                name="googleSignIn"
+                onClick={createAccountWithGoogle}
+              >
                 {<FcGoogle size={25} />} Sign up with Google
               </StyledGoogleButton>
             </StyledCard>
-            <StyledSignup key={formKey} onSubmit={handleSubmit}>
+            <StyledSignup key={formKey} onSubmit={createAccount}>
               <h4>Register</h4>
               <StyledInput
                 required

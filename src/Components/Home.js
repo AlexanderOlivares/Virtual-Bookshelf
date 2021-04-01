@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { StyledBook } from "./Search";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
@@ -14,8 +14,9 @@ import { AiOutlineDelete } from "react-icons/ai";
 import Loader from "react-loader-spinner";
 Modal.setAppElement("#root");
 
+// username with checkmark when signed in
 export const StyledActiveUser = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   display: inline;
   padding: 10px;
 `;
@@ -41,6 +42,23 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
   const [modalIndex, setModalIndex] = useState(-1);
 
   useEffect(() => {
+    db.collection(`users/${user_UID}/shelf`).onSnapshot(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        setHomeList(prev => [
+          ...prev,
+          {
+            title: data.title,
+            thumbnail_URL: data.thumbnail,
+            author: data.author,
+            description: data.description,
+          },
+        ]);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     fetch(
       `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-nonfiction.json?api-key=${NYT_API_KEY}`
     )
@@ -50,7 +68,6 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
         }
       })
       .then(res => {
-        console.log(res.results.books);
         setBestsellersList(res.results.books);
       })
       .catch(error => console.error(`error: ${error}`));
@@ -63,13 +80,12 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
       .collection(`shelf`)
       .doc(`${book.title}`);
 
-    console.log(book.title);
     book_ID.get().then(docSnapshot => {
       if (docSnapshot.exists) {
         book_ID
           .delete()
           .then(() => console.log("book deleted"))
-          .catch(error => console.error("could not delete book" + error));
+          .catch(error => alert("could not delete book" + error));
 
         setHomeList(homeList.filter(e => e.title !== book.title));
       } else {
@@ -101,7 +117,7 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     });
   }
 
-  // styles object for modal
+  //  styles object for modal
   const modalStyles = {
     overlay: {
       position: "fixed",
@@ -135,8 +151,6 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
             src={modalTargetBook.book_image}
             alt={modalTargetBook.title}
             width="250"
-            // width="128"
-            // height="195"
           ></img>
           <p>{modalTargetBook.description}</p>
           <div>
@@ -152,7 +166,7 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     setModal(prev => !prev);
   }
 
-  function handleClick() {
+  function handleGoogleSignin() {
     auth
       .signInWithPopup(google)
       .then(result => {
@@ -174,8 +188,8 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        alert(`could not signup: ${errorCode}${errorMessage}`);
-        console.log([errorCode, errorMessage, credential, email]);
+        alert(`Error: ${errorMessage}`);
+        // console.log([errorCode, errorMessage, credential, email]);
       });
   }
 
@@ -210,13 +224,15 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
             <StyledGoogleButton style={{ backgroundColor: "#00adb5" }}>
               <Link to="/signup">Sign up</Link>
             </StyledGoogleButton>
-            <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+            <StyledGoogleButton
+              name="googleSignIn"
+              onClick={handleGoogleSignin}
+            >
               {<FcGoogle size={25} />} Sign up with Google
             </StyledGoogleButton>
           </div>
         </>
       )}
-      <br></br>
       <div>
         <h3>What have you read lately?</h3>
         <h5 style={{ textDecoration: "underline" }}>NYT Best Sellers</h5>
@@ -226,7 +242,7 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
             color="#00adb5"
             height={50}
             width={50}
-            timeout={9000} //9 secs
+            timeout={9000}
           />
         ) : (
           bestsellersList.map((book, index) => {
@@ -256,12 +272,16 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
         )}
       </div>
       {renderModal(modalIndex)}
-      <StyledAbout style={{ marginBottom: -15 }}>
-        Create an account to add books to your shelf
-      </StyledAbout>
-      <StyledHomeButtons>
-        <Link to="/signup">Sign up</Link>
-      </StyledHomeButtons>
+      {!isLoggedIn && (
+        <>
+          <StyledAbout style={{ marginBottom: -15 }}>
+            Create an account to add books to your shelf
+          </StyledAbout>
+          <StyledHomeButtons>
+            <Link to="/signup">Sign up</Link>
+          </StyledHomeButtons>
+        </>
+      )}
     </div>
   );
 }

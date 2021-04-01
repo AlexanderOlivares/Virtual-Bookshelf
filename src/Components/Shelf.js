@@ -12,7 +12,6 @@ import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
-import { lightTheme, darkTheme } from "./Theme";
 
 function Shlef({ user_UID, isLoggedIn, username, theme }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
@@ -25,6 +24,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
   const [emailModal, setEmailModal] = useState(false);
   let isLoggedInAndList = isLoggedIn && list.length ? true : false;
 
+  // load previously saved books from db
   useEffect(() => {
     db.collection(`users/${user_UID}/shelf`).onSnapshot(snapshot => {
       snapshot.forEach(doc => {
@@ -40,9 +40,9 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
         ]);
       });
     });
-    console.log("useEffect ran");
   }, []);
 
+  // styles object for modal
   const modalStyles = {
     overlay: {
       position: "fixed",
@@ -60,7 +60,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
     },
   };
 
-  function renderModal(modalIndex) {
+  function renderBookModal(modalIndex) {
     let modalTargetBook = list[modalIndex];
     return (
       modalTargetBook && (
@@ -69,11 +69,11 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
           style={modalStyles}
           isOpen={modal}
           // modalIndex={modalIndex}
-          onRequestClose={() => toggleModal()}
+          onRequestClose={() => toggleBookModal()}
         >
           <button
             style={{ position: "absolute", top: 5, left: 5, border: "none" }}
-            onClick={() => toggleModal()}
+            onClick={() => toggleBookModal()}
           >
             <AiOutlineClose size={20} />
           </button>
@@ -85,14 +85,14 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
           <p>{modalTargetBook.description}</p>
           <p>{`by ${modalTargetBook.author}`}</p>
           <div>
-            <button onClick={() => toggleModal()}>close</button>
+            <button onClick={() => toggleBookModal()}>close</button>
           </div>
         </Modal>
       )
     );
   }
 
-  function toggleModal(index = -1) {
+  function toggleBookModal(index = -1) {
     setModalIndex(index);
     setModal(prev => !prev);
   }
@@ -129,9 +129,14 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
       .sendForm(EMAILJS_SERVICEID, EMAILJS_TEMPLATEID, e.target, EMAILJS_USERID)
       .then(
         result => {
+          alert("Success! Your email has been sent. Thanks for sharing");
           console.log(result.text);
         },
         error => {
+          alert(
+            error +
+              "Could not send email. Double check the email address and try again."
+          );
           console.log(error.text);
         }
       );
@@ -158,6 +163,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
               type="email"
               name="email"
               placeholder="name@email.com"
+              required
             />
             <StyledButton type="submit">share shelf</StyledButton>
             <div>
@@ -215,7 +221,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
                   height="195"
                 ></img>
                 <br></br>
-                <button onClick={() => toggleModal(index)}>
+                <button onClick={() => toggleBookModal(index)}>
                   {<BiInfoSquare />}
                 </button>
                 {isLoggedIn && (
@@ -229,7 +235,7 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
         )}
       </StyledContainer>
       <div>{renderEmailModal()}</div>
-      <div>{renderModal(modalIndex)}</div>
+      <div>{renderBookModal(modalIndex)}</div>
     </>
   );
 }

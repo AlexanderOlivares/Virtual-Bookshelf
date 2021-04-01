@@ -1,18 +1,17 @@
 import "./App.css";
 import { useState } from "react";
-import { auth, google } from "./firebase";
+import { auth } from "./firebase";
 import { db } from "./firebase";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import Navbar from "./Navbar";
-import Profile from "./Profile";
 import Home from "./Home";
 import Signup from "./Signup";
 import Shelf from "./Shelf";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import { GlobalStyle } from "./GlobalStyle";
-import { lightTheme, darkTheme } from "./Theme";
+import { lightTheme } from "./Theme";
 
 function App() {
   const [theme, setTheme] = useState(lightTheme);
@@ -25,6 +24,7 @@ function App() {
 
   const [userEmail, setUserEmail] = useState(null);
 
+  // checks for sign-ins/outs
   auth.onAuthStateChanged(googleAuthUser => {
     if (googleAuthUser) {
       const docRef = db.collection("users").doc(`${googleAuthUser.uid}`);
@@ -38,26 +38,21 @@ function App() {
             setUser_UID(googleAuthUser.uid);
             setIsLoggedIn(true);
             setUserEmail(googleAuthUser.email);
-            // console.log(data);
-            // console.log(googleAuthUser);
             console.log(googleAuthUser.uid + "is signed in");
           } else {
             // doc.data() will be undefined in this case
             alert("Error logging in. Please try again");
-            console.log(doc.data() + "No such document!");
           }
         })
         .catch(error => {
-          alert(`Could not sign in ${error}`);
+          alert(`${error}. Could not sign in. Please try again.`);
           console.log("Error getting document:", error);
         });
     } else {
+      // successful sign out
       setIsLoggedIn(null);
-      console.log("successful sign out");
     }
   });
-
-  console.log(isLoggedIn);
 
   return (
     <>
@@ -110,9 +105,6 @@ function App() {
                     setIsLoggedIn={setIsLoggedIn}
                     isLoggedIn={isLoggedIn}
                   />
-                </Route>
-                <Route exact path="/profile">
-                  <Profile username={username} isLoggedIn={isLoggedIn} />
                 </Route>
                 <Route exact path="/shelf">
                   <Shelf

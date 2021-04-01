@@ -12,7 +12,6 @@ import {
   StyledInput,
   StyledSignup,
   StyledP,
-  StyledCard,
 } from "./Signup";
 
 function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
@@ -50,12 +49,10 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
       .signInWithEmailAndPassword(email, password)
       .then(userCredential => {
         let username = userCredential.username;
-        setUsername(email);
         setIsLoggedIn(true);
-        console.log(username);
       })
       .catch(error => {
-        alert(`could not sign in ${error.code}`);
+        alert(`${error}. Could not sign in. Try again or reset your passowrd.`);
         console.log(error.code);
         console.log(error.message);
       });
@@ -66,22 +63,19 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
       .signInWithPopup(google)
       .then(result => {
         /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
-
+        // var credential = result.credential;
         // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = credential.accessToken;
+        // var token = credential.accessToken;
         // The signed-in username info.
         setIsLoggedIn(true);
       })
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
+        // var credential = error.credential;
         setIsLoggedIn(null);
         alert(`${errorCode}${errorMessage}`);
-        console.log([errorCode, errorMessage, credential, email]);
       });
   }
 
@@ -109,32 +103,17 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
         isOpen={modal}
         onRequestClose={() => setModal(false)}
         style={modalStyles}
-        // style={{
-        //   overlay: {
-        //     position: "fixed",
-        //     backgroundColor: "rgba(255, 255, 255, 0.75)",
-        //   },
-        //   content: {
-        //     background: theme.background,
-        //     display: "flex",
-        //     flexDirection: "column",
-        //     alignItems: "center",
-        //     overflow: "auto",
-        //     webkitoverflowscrolling: "touch",
-        //     textAlign: "center",
-        //     padding: "20px",
-        //   },
-        // }}
       >
         <StyledSignup onSubmit={resetPassword}>
           <h3>Password Reset</h3>
           <p>An email with reset instructions will be sent to:</p>
           <input
             style={{ margin: 20 }}
-            onChange={handlePassInput}
+            onChange={handlePasswordInput}
             placeholder="yourname@email.com"
             type="email"
             name="email"
+            required
           ></input>
           <br></br>
           <button type="submit" style={{ margin: 5 }}>
@@ -148,7 +127,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
     );
   }
 
-  function handlePassInput(e) {
+  function handlePasswordInput(e) {
     setResetPassInput(e.currentTarget.value);
   }
 
@@ -160,12 +139,14 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
       .then(function () {
         // Email sent.
         alert("check your email for reset instructions");
-        console.log("check your email for reset instructions");
         setModal(false);
       })
       .catch(function (error) {
         // An error happened
-        alert(error + "could not send reset password email");
+        alert(
+          error +
+            "could not send reset password email. Double check your email address and try again."
+        );
         console.error(error + "could not send reset password email");
       });
   }
@@ -175,10 +156,10 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
       {!isLoggedIn ? (
         <div>
           <h1>Sign in</h1>
-          {/* { this is for signin just reusing signup styled coponent} */}
           <div>
             <FaBookReader size={100} style={{ margin: 30 }}></FaBookReader>
           </div>
+          {/* { For signin purposes. Reusing signup styled coponent} */}
           <StyledSignup key={formKey} onSubmit={handleSubmit}>
             <StyledInput
               required
@@ -214,7 +195,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
         </div>
       ) : (
         <>
-          <Home isLoggedIn={isLoggedIn} username={username} />
+          <Home isLoggedIn={isLoggedIn} username={username} theme={theme} />
         </>
       )}
     </div>

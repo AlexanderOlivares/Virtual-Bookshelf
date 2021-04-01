@@ -5,12 +5,10 @@ import { db } from "./firebase";
 import Modal from "react-modal";
 import styled from "styled-components";
 import { GiArchiveResearch } from "react-icons/gi";
-import { StyledSignup } from "./Signup";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose, AiOutlineInfo } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
-import { lightTheme, darkTheme } from "./Theme";
 
 export const StyledBook = styled.div`
   margin-top: 35px;
@@ -45,6 +43,7 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
 
+  // will show if a book in search results is already saved in db
   useEffect(() => {
     const getBooksfromDb = db.collection(`users/${user_UID}/shelf`);
 
@@ -89,9 +88,7 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
     setFormKey(uuidv4());
   }
 
-  console.log(googleBooksResults);
-
-  /// SO THIS WILL CREATE A COLLECTION
+  // creates a shelf collection under the user document in firebase
   function addOrRemoveFromList(e) {
     const book_ID = db
       .collection("users")
@@ -116,13 +113,16 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
             description: e.volumeInfo.description,
           })
           .then(() => {
-            console.log("doc successfully written");
+            console.log("book successfully saved");
           })
           .catch(error => {
-            alert("Please sign in or create an account to create your shelf");
+            alert(
+              "Please sign in or create an account to add books to your shelf"
+            );
             console.error("error writing doc: ", error);
           });
 
+        // add new books to state
         setList(prev => [
           ...prev,
           {
@@ -164,8 +164,6 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
           modalIndex={modalIndex}
           onRequestClose={() => toggleModal()}
         >
-          {/* FIGURE OUT HOW TO KEEP AN X STUCK TO TOP FOR CLOSING AFTER SCROLL */}
-          {/* <div style={{ position: "fixed", right: 300 }}>X</div> */}
           <button
             style={{ position: "absolute", top: 5, left: 5, border: "none" }}
             onClick={() => toggleModal()}
@@ -194,8 +192,6 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
     setModalIndex(index);
     setModal(prev => !prev);
   }
-
-  console.log(isLoggedIn);
 
   return (
     <div>
