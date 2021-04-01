@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/Virtual-Bookshelf/home/static/css/main.a5d076e9.chunk.css",
-    "main.js": "/Virtual-Bookshelf/home/static/js/main.e22ea99a.chunk.js",
-    "main.js.map": "/Virtual-Bookshelf/home/static/js/main.e22ea99a.chunk.js.map",
-    "runtime-main.js": "/Virtual-Bookshelf/home/static/js/runtime-main.23769dfa.js",
-    "runtime-main.js.map": "/Virtual-Bookshelf/home/static/js/runtime-main.23769dfa.js.map",
-    "static/css/2.150d169a.chunk.css": "/Virtual-Bookshelf/home/static/css/2.150d169a.chunk.css",
-    "static/js/2.389f532f.chunk.js": "/Virtual-Bookshelf/home/static/js/2.389f532f.chunk.js",
-    "static/js/2.389f532f.chunk.js.map": "/Virtual-Bookshelf/home/static/js/2.389f532f.chunk.js.map",
-    "static/js/3.7c6f212e.chunk.js": "/Virtual-Bookshelf/home/static/js/3.7c6f212e.chunk.js",
-    "static/js/3.7c6f212e.chunk.js.map": "/Virtual-Bookshelf/home/static/js/3.7c6f212e.chunk.js.map",
-    "index.html": "/Virtual-Bookshelf/home/index.html",
-    "static/css/2.150d169a.chunk.css.map": "/Virtual-Bookshelf/home/static/css/2.150d169a.chunk.css.map",
-    "static/css/main.a5d076e9.chunk.css.map": "/Virtual-Bookshelf/home/static/css/main.a5d076e9.chunk.css.map",
-    "static/js/2.389f532f.chunk.js.LICENSE.txt": "/Virtual-Bookshelf/home/static/js/2.389f532f.chunk.js.LICENSE.txt"
+    "main.css": "/Virtual-Bookshelf/static/css/main.a5d076e9.chunk.css",
+    "main.js": "/Virtual-Bookshelf/static/js/main.e22ea99a.chunk.js",
+    "main.js.map": "/Virtual-Bookshelf/static/js/main.e22ea99a.chunk.js.map",
+    "runtime-main.js": "/Virtual-Bookshelf/static/js/runtime-main.cdf21d4f.js",
+    "runtime-main.js.map": "/Virtual-Bookshelf/static/js/runtime-main.cdf21d4f.js.map",
+    "static/css/2.150d169a.chunk.css": "/Virtual-Bookshelf/static/css/2.150d169a.chunk.css",
+    "static/js/2.e3054452.chunk.js": "/Virtual-Bookshelf/static/js/2.e3054452.chunk.js",
+    "static/js/2.e3054452.chunk.js.map": "/Virtual-Bookshelf/static/js/2.e3054452.chunk.js.map",
+    "static/js/3.7c6f212e.chunk.js": "/Virtual-Bookshelf/static/js/3.7c6f212e.chunk.js",
+    "static/js/3.7c6f212e.chunk.js.map": "/Virtual-Bookshelf/static/js/3.7c6f212e.chunk.js.map",
+    "index.html": "/Virtual-Bookshelf/index.html",
+    "static/css/2.150d169a.chunk.css.map": "/Virtual-Bookshelf/static/css/2.150d169a.chunk.css.map",
+    "static/css/main.a5d076e9.chunk.css.map": "/Virtual-Bookshelf/static/css/main.a5d076e9.chunk.css.map",
+    "static/js/2.e3054452.chunk.js.LICENSE.txt": "/Virtual-Bookshelf/static/js/2.e3054452.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.23769dfa.js",
+    "static/js/runtime-main.cdf21d4f.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.389f532f.chunk.js",
+    "static/js/2.e3054452.chunk.js",
     "static/css/main.a5d076e9.chunk.css",
     "static/js/main.e22ea99a.chunk.js"
   ]
