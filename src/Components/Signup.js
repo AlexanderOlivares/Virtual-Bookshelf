@@ -222,7 +222,7 @@ function Signup({ username, isLoggedIn, theme }) {
       <div>
         {isLoggedIn ? (
           <>
-            <Search username={username} />
+            <Search username={username} theme={theme} />
           </>
         ) : (
           <>
