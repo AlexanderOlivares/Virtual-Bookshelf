@@ -157,12 +157,21 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
           <StyledSignup className="contact-form" onSubmit={sendEmail}>
             <h4>Share your bookshelf</h4>
             <p> email this shelf to:</p>
-            <input type="hidden" name="username" value={username} />
+            <input
+              type="hidden"
+              name="username"
+              value={
+                String(username).endsWith("s")
+                  ? `${username}'`
+                  : `${username}'s`
+              }
+            />
+            <input type="hidden" name="usernameSingular" value={username} />
             <input type="hidden" name="user_UID" value={user_UID} />
             <input
               type="hidden"
               name="link"
-              value={`window.location.href/ViewShelf/${user_UID}`}
+              value={`https://alexanderolivares.github.io/Virtual-Bookshelf/#/ViewShelf/${user_UID}`}
             />
             <StyledInput
               type="email"

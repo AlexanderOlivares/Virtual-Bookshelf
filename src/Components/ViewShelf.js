@@ -9,7 +9,7 @@ import { GiBookshelf } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 
-function ViewShlef({ user_UID, isLoggedIn, username, theme }) {
+function ViewShlef({ theme }) {
   const [list, setList] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
