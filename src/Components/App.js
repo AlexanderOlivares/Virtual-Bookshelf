@@ -12,6 +12,7 @@ import Search from "./Search";
 import SignIn from "./SignIn";
 import { GlobalStyle } from "./GlobalStyle";
 import { lightTheme } from "./Theme";
+import ViewShelf from "./ViewShelf";
 
 function App() {
   const [theme, setTheme] = useState(lightTheme);
@@ -23,6 +24,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const [userEmail, setUserEmail] = useState(null);
+
+  const id = username;
 
   // checks for sign-ins/outs
   auth.onAuthStateChanged(googleAuthUser => {
@@ -106,8 +109,16 @@ function App() {
                     isLoggedIn={isLoggedIn}
                   />
                 </Route>
-                <Route exact path="/shelf">
+                <Route exact path="/shelf/">
                   <Shelf
+                    theme={theme}
+                    username={username}
+                    user_UID={user_UID}
+                    isLoggedIn={isLoggedIn}
+                  />
+                </Route>
+                <Route exact path="/ViewShelf/:uid">
+                  <ViewShelf
                     theme={theme}
                     username={username}
                     user_UID={user_UID}

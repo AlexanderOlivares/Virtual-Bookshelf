@@ -6,7 +6,7 @@ import { StyledBook, StyledContainer } from "./Search";
 import { StyledSignup, StyledInput, StyledButton } from "./Signup";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GiBookshelf } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
@@ -158,7 +158,12 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
             <h4>Share your bookshelf</h4>
             <p> email this shelf to:</p>
             <input type="hidden" name="username" value={username} />
-            <input type="hidden" name="link" value={window.location.href} />
+            <input type="hidden" name="user_UID" value={user_UID} />
+            <input
+              type="hidden"
+              name="link"
+              value={`window.location.href/ViewShelf/${user_UID}`}
+            />
             <StyledInput
               type="email"
               name="email"
