@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   html, body {
+    text-align: center;
     background: ${props => props.theme.background};
     color: ${props => props.theme.color}; 
     transition: all .3s ease;
@@ -12,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 85%;
     margin: 0 auto;
     padding: 20px;
+    overflow-x: "hidden"; 
   }
 
   a { 

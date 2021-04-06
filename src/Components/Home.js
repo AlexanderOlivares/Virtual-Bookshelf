@@ -127,7 +127,7 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     content: {
       position: "absolute",
       border: "1px solid #ccc",
-      overflow: "auto",
+      overflowX: "auto",
       WebkitOverflowScrolling: "touch",
       borderRadius: "5px",
       outline: "none",
@@ -248,7 +248,11 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
           bestsellersList.map((book, index) => {
             return (
               <StyledBook key={uuidv4()}>
-                <img src={book.book_image} alt={book.title}></img>
+                <img
+                  style={{ maxWidth: "100%" }}
+                  src={book.book_image}
+                  alt={book.title}
+                ></img>
                 <div>{book.title}</div>
                 <div>{book.contributor}</div>
                 <div>Rank: {book.rank}</div>

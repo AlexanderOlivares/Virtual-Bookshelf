@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState } from "react";
 import { auth } from "./firebase";
 import { db } from "./firebase";
@@ -24,8 +23,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const [userEmail, setUserEmail] = useState(null);
-
-  const id = username;
 
   // checks for sign-ins/outs
   auth.onAuthStateChanged(googleAuthUser => {
