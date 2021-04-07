@@ -7,12 +7,11 @@ import styled from "styled-components";
 import { GiArchiveResearch } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
-import { AiOutlineDelete, AiOutlineClose, AiOutlineInfo } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 
 export const StyledBook = styled.div`
   margin-top: 35px;
-  padding: 5px;
   flex-grow: 1;
 `;
 
@@ -23,7 +22,7 @@ export const StyledContainer = styled.div`
   flex-wrap: wrap;
   justify-content: stretch;
   align-items: center;
-  padding: 15px;
+  padding: 5px;
 
   @media (min-width: 900px) {
     max-width: 65%;
@@ -210,7 +209,9 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       )}
       <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>
-        <button type="submit">search</button>
+        <button style={{ fontSize: 16, margin: 10 }} type="submit">
+          search
+        </button>
       </form>
       <StyledContainer>
         {googleBooksResults &&

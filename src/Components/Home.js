@@ -257,7 +257,7 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
                 <div>{book.contributor}</div>
                 <div>Rank: {book.rank}</div>
                 <button onClick={() => toggleModal(index)}>
-                  {<BiInfoSquare size={20} />}
+                  {<BiInfoSquare size={16} />}
                 </button>
                 {isLoggedIn && (
                   <button onClick={() => addOrRemoveFromList(book)}>

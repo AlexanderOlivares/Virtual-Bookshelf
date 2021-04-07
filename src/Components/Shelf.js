@@ -6,7 +6,7 @@ import { StyledBook, StyledContainer } from "./Search";
 import { StyledSignup, StyledInput, StyledButton } from "./Signup";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GiBookshelf } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
