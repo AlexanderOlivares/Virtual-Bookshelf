@@ -31,3 +31,23 @@ export const GlobalStyle = createGlobalStyle`
   }
 
 `;
+
+// not a styled component just an object
+export const modalStyles = {
+  overlay: {
+    position: "fixed",
+    textAlign: "center",
+    vertialAlign: "middle",
+    height: "95%",
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+  },
+  content: {
+    position: "absolute",
+    border: "1px solid #ccc",
+    overflowX: "auto",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "5px",
+    outline: "none",
+    textAlign: "center",
+  },
+};

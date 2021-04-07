@@ -6,6 +6,7 @@ import Home from "./Home";
 import { FaBookReader } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Modal from "react-modal";
+import { modalStyles } from "./GlobalStyle";
 import {
   StyledGoogleButton,
   StyledButton,
@@ -14,7 +15,9 @@ import {
   StyledP,
 } from "./Signup";
 
-function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
+function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
+  modalStyles.content.background = theme.background;
+
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -47,8 +50,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
 
     auth
       .signInWithEmailAndPassword(email, password)
-      .then(userCredential => {
-        let username = userCredential.username;
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch(error => {
@@ -61,40 +63,16 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
   function handleClick() {
     auth
       .signInWithPopup(google)
-      .then(result => {
-        /** @type {firebase.auth.OAuthCredential} */
-        // var credential = result.credential;
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // var token = credential.accessToken;
-        // The signed-in username info.
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The firebase.auth.AuthCredential type that was used.
-        // var credential = error.credential;
         setIsLoggedIn(null);
         alert(`${errorCode}${errorMessage}`);
       });
   }
-
-  const modalStyles = {
-    overlay: {
-      position: "fixed",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
-    },
-    content: {
-      background: theme.background,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      overflow: "auto",
-      webkitoverflowscrolling: "touch",
-      textAlign: "center",
-      padding: "20px",
-    },
-  };
 
   function renderModal() {
     return (
@@ -137,12 +115,10 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, setUsername, theme }) {
     auth
       .sendPasswordResetEmail(resetEmail)
       .then(function () {
-        // Email sent.
         alert("check your email for reset instructions");
         setModal(false);
       })
       .catch(function (error) {
-        // An error happened
         alert(
           error +
             "could not send reset password email. Double check your email address and try again."

@@ -11,6 +11,7 @@ import { FaBookReader } from "react-icons/fa";
 import { FiUserCheck } from "react-icons/fi";
 import { BiInfoSquare } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
+import { modalStyles } from "./GlobalStyle";
 import Loader from "react-loader-spinner";
 Modal.setAppElement("#root");
 
@@ -35,12 +36,14 @@ const StyledHomeButtons = styled.button`
 
 function Home({ isLoggedIn, username, user_UID, theme }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
+  modalStyles.content.background = theme.background;
 
   const [bestsellersList, setBestsellersList] = useState([]);
   const [homeList, setHomeList] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
 
+  // to check if any NYT bestsellers are already saved to shelf
   useEffect(() => {
     db.collection(`users/${user_UID}/shelf`).onSnapshot(snapshot => {
       snapshot.forEach(doc => {
@@ -117,25 +120,6 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     });
   }
 
-  //  styles object for modal
-  const modalStyles = {
-    overlay: {
-      position: "fixed",
-      textAlign: "center",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
-    },
-    content: {
-      position: "absolute",
-      border: "1px solid #ccc",
-      overflowX: "auto",
-      WebkitOverflowScrolling: "touch",
-      borderRadius: "5px",
-      outline: "none",
-      textAlign: "center",
-      background: theme.background,
-    },
-  };
-
   function renderModal(modalIndex) {
     let modalTargetBook = bestsellersList[modalIndex];
     return (
@@ -170,12 +154,6 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
     auth
       .signInWithPopup(google)
       .then(result => {
-        /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = credential.accessToken;
-        // The signed-in username info.
-        var userCredential = result.user;
         return db.collection("users").doc(result.user.uid).set({
           username: result.user.displayName,
           email: result.user.email,
@@ -185,11 +163,8 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        alert(`Error: ${errorMessage}`);
-        // console.log([errorCode, errorMessage, credential, email]);
+        alert(`Error could not sign in. Please Try again.`);
+        console.warn(`${errorCode}. ${errorMessage}`);
       });
   }
 

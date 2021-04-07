@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import { GiArchiveResearch } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
+import { modalStyles } from "./GlobalStyle";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
@@ -35,6 +36,8 @@ export const StyledContainer = styled.div`
 
 function Search({ user_UID, isLoggedIn, username, theme }) {
   const API_KEY = process.env.REACT_APP_FIREBASE_GOOGLE_BOOKS_API_KEY;
+  modalStyles.content.background = theme.background;
+
   const [searchInput, setSearchInput] = useState("");
   const [googleBooksResults, setGoogleBooksResults] = useState([]);
   const [formKey, setFormKey] = useState(uuidv4());
@@ -134,23 +137,6 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       }
     });
   }
-
-  const modalStyles = {
-    overlay: {
-      position: "fixed",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
-    },
-    content: {
-      background: theme.background,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      overflow: "auto",
-      webkitoverflowscrolling: "touch",
-      textAlign: "center",
-      padding: "20px",
-    },
-  };
 
   function renderModal(modalIndex) {
     let modalTargetBook = googleBooksResults[modalIndex];

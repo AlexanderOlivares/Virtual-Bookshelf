@@ -8,8 +8,11 @@ import { Link, useParams } from "react-router-dom";
 import { GiBookshelf } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
+import { modalStyles } from "./GlobalStyle";
 
 function ViewShlef({ theme }) {
+  modalStyles.content.background = theme.background;
+
   const [list, setList] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
@@ -50,24 +53,6 @@ function ViewShlef({ theme }) {
       });
     });
   }, []);
-
-  // styles object for modal
-  const modalStyles = {
-    overlay: {
-      position: "fixed",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
-    },
-    content: {
-      background: theme.background,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      overflow: "auto",
-      webkitoverflowscrolling: "touch",
-      textAlign: "center",
-      padding: "20px",
-    },
-  };
 
   function renderBookModal(modalIndex) {
     let modalTargetBook = list[modalIndex];

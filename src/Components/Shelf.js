@@ -4,6 +4,7 @@ import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
 import { StyledBook, StyledContainer } from "./Search";
 import { StyledSignup, StyledInput, StyledButton } from "./Signup";
+import { modalStyles } from "./GlobalStyle";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
 import { Link } from "react-router-dom";
@@ -13,10 +14,12 @@ import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 
-function Shlef({ user_UID, isLoggedIn, username, theme }) {
+function Shelf({ user_UID, isLoggedIn, username, theme }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
   const EMAILJS_SERVICEID = process.env.REACT_APP_EMAILJS_SERVICEID;
   const EMAILJS_TEMPLATEID = process.env.REACT_APP_EMAILJS_TEMPLATEID;
+
+  modalStyles.content.background = theme.background;
 
   const [list, setList] = useState([]);
   const [modal, setModal] = useState(false);
@@ -42,24 +45,6 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
     });
   }, []);
 
-  // styles object for modal
-  const modalStyles = {
-    overlay: {
-      position: "fixed",
-      backgroundColor: "rgba(255, 255, 255, 0.75)",
-    },
-    content: {
-      background: theme.background,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      overflow: "auto",
-      webkitoverflowscrolling: "touch",
-      textAlign: "center",
-      padding: "20px",
-    },
-  };
-
   function renderBookModal(modalIndex) {
     let modalTargetBook = list[modalIndex];
     return (
@@ -68,7 +53,6 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
           theme={theme}
           style={modalStyles}
           isOpen={modal}
-          // modalIndex={modalIndex}
           onRequestClose={() => toggleBookModal()}
         >
           <button
@@ -254,4 +238,4 @@ function Shlef({ user_UID, isLoggedIn, username, theme }) {
   );
 }
 
-export default Shlef;
+export default Shelf;
