@@ -8,7 +8,7 @@ Miss the feeling of putting hardcovers and paperbacks on your bookshelf? If you 
 
 - Sign-in/sign-up with Google
 - Email your shelf to friends from the app
-- Lookup millions of titles with a search powered by Google Books.
+- Lookup millions of titles with a search powered by Google Books
 - Browse the New York Times Best Seller List
 - Toggle light/dark mode
 

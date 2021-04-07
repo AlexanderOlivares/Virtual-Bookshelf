@@ -188,10 +188,11 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
           <h1>My Virtual Bookshelf</h1>
           <FaBookReader size={140}></FaBookReader>
           <StyledAbout>
-            Do you love e-books and audiobooks but miss adding finished books to
-            your bookshelf? Now you have a digital shelf to display your
-            collection. Simply search books you've recently completed, add them
-            to your virtual shelf and show your friends you've been reading!
+            Miss the feeling of putting hardcovers and paperbacks on your
+            bookshelf? If you listen to audiobooks or read e-books now you can
+            visualize your collection with Virtual Bookshelf. Create an account,
+            search for books to add to your shelf and show your friends what
+            you've been reading!
             <br></br>
           </StyledAbout>
           <div>
