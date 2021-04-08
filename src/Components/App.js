@@ -32,11 +32,17 @@ function App() {
       docRef
         .get()
         .then(doc => {
-          let data = doc.data();
-          setUsername(googleAuthUser.displayName || data.username);
-          setUser_UID(googleAuthUser.uid);
-          setIsLoggedIn(true);
-          setUserEmail(googleAuthUser.email);
+          if (doc.exists) {
+            let data = doc.data();
+            console.log(data);
+            setUsername(googleAuthUser.displayName || data.username);
+            setUser_UID(googleAuthUser.uid);
+            setIsLoggedIn(true);
+            setUserEmail(googleAuthUser.email);
+          } else {
+            console.log("doc does not exist");
+            alert("Error occured while creating account. Plase try again.");
+          }
         })
         .catch(error => {
           alert(`${error}. Could not sign in. Please try again.`);

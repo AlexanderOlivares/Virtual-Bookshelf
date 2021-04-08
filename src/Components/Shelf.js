@@ -13,6 +13,7 @@ import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
+import Loader from "react-loader-spinner";
 
 function Shelf({ user_UID, isLoggedIn, username, theme }) {
   const EMAILJS_USERID = process.env.REACT_APP_EMAILJS_USERID;
@@ -21,6 +22,8 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
 
   modalStyles.content.background = theme.background;
 
+  // still need to test this more and check it in
+  const [loadingBooks, setLoadingBooks] = useState(true);
   const [list, setList] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalIndex, setModalIndex] = useState(-1);
@@ -44,6 +47,14 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (loadingBooks) {
+      setTimeout(() => {
+        setLoadingBooks(false);
+      }, 1000);
+    }
+  }, [loadingBooks]);
 
   function renderBookModal(modalIndex) {
     let modalTargetBook = list[modalIndex];
@@ -83,10 +94,12 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
 
   function removeFromList(e) {
     const deleteConfirmed = window.confirm(
-      "Are you sure you want to delete this book from your shelf?"
+      `Are you sure you want to delete ${e.title} from your shelf?`
     );
 
     if (deleteConfirmed) {
+      setLoadingBooks(true);
+
       const book_ID = db
         .collection("users")
         .doc(`${user_UID}`)
@@ -195,43 +208,53 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
           <button onClick={() => setEmailModal(true)}>email shelf</button>
         )}
       </div>
-      <StyledContainer>
-        {!list.length ? (
-          <>
-            <div style={{ margin: "0 auto", paddingTop: 40 }}>
-              <h4>
-                Your shelf is empty. Search for books to add to your shelf
-              </h4>
-              <button style={{ margin: 30 }}>
-                <Link to="/search">Search</Link>
-              </button>
-            </div>
-            <br></br>
-          </>
-        ) : (
-          list.map((e, index) => {
-            return (
-              <StyledBook key={uuidv4()}>
-                <img
-                  src={e.thumbnail_URL}
-                  alt={e.title}
-                  width="128"
-                  height="195"
-                ></img>
-                <br></br>
-                <button onClick={() => toggleBookModal(index)}>
-                  {<BiInfoSquare />}
+      {loadingBooks ? (
+        <Loader
+          type="ThreeDots"
+          color="#00adb5"
+          height={50}
+          width={50}
+          timeout={9000}
+        />
+      ) : (
+        <StyledContainer>
+          {!list.length && !loadingBooks ? (
+            <>
+              <div style={{ margin: "0 auto", paddingTop: 40 }}>
+                <h4>
+                  Your shelf is empty. Search for books to add to your shelf
+                </h4>
+                <button style={{ margin: 30 }}>
+                  <Link to="/search">Search</Link>
                 </button>
-                {isLoggedIn && (
-                  <button onClick={() => removeFromList(e)}>
-                    {<AiOutlineDelete />}
+              </div>
+              <br></br>
+            </>
+          ) : (
+            list.map((e, index) => {
+              return (
+                <StyledBook key={uuidv4()}>
+                  <img
+                    src={e.thumbnail_URL}
+                    alt={e.title}
+                    width="128"
+                    height="195"
+                  ></img>
+                  <br></br>
+                  <button onClick={() => toggleBookModal(index)}>
+                    {<BiInfoSquare />}
                   </button>
-                )}
-              </StyledBook>
-            );
-          })
-        )}
-      </StyledContainer>
+                  {isLoggedIn && (
+                    <button onClick={() => removeFromList(e)}>
+                      {<AiOutlineDelete />}
+                    </button>
+                  )}
+                </StyledBook>
+              );
+            })
+          )}
+        </StyledContainer>
+      )}
       <div>{renderEmailModal()}</div>
       <div>{renderBookModal(modalIndex)}</div>
     </>

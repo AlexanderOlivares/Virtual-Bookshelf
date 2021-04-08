@@ -56,7 +56,7 @@ export const StyledCard = styled.div`
   text-align: center;
 `;
 
-function Signup({ username, isLoggedIn, theme, user_UID }) {
+function Signup({ username, setUsername, isLoggedIn, theme, user_UID }) {
   modalStyles.content.background = theme.background;
 
   const [modal, setModal] = useState(false);
@@ -101,13 +101,7 @@ function Signup({ username, isLoggedIn, theme, user_UID }) {
       return;
     }
 
-    setInput({
-      username: "",
-      email: "",
-      password: "",
-    });
-
-    setFormKey(uuidv4());
+    setUsername(username);
 
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -126,9 +120,11 @@ function Signup({ username, isLoggedIn, theme, user_UID }) {
   }
 
   function createAccountWithGoogle() {
+    setUsername(username);
     auth
       .signInWithPopup(google)
       .then(result => {
+        console.log(result);
         return db.collection("users").doc(result.user.uid).set({
           username: result.user.displayName,
           email: result.user.email,
@@ -199,10 +195,10 @@ function Signup({ username, isLoggedIn, theme, user_UID }) {
         {isLoggedIn ? (
           <>
             <Search
+              theme={theme}
               username={username}
               isLoggedIn={isLoggedIn}
               user_UID={user_UID}
-              theme={theme}
             />
           </>
         ) : (
