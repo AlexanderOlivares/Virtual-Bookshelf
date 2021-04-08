@@ -56,7 +56,7 @@ export const StyledCard = styled.div`
   text-align: center;
 `;
 
-function Signup({ username, isLoggedIn, theme }) {
+function Signup({ username, isLoggedIn, theme, user_UID }) {
   modalStyles.content.background = theme.background;
 
   const [modal, setModal] = useState(false);
@@ -198,7 +198,12 @@ function Signup({ username, isLoggedIn, theme }) {
       <div>
         {isLoggedIn ? (
           <>
-            <Search username={username} theme={theme} />
+            <Search
+              username={username}
+              isLoggedIn={isLoggedIn}
+              user_UID={user_UID}
+              theme={theme}
+            />
           </>
         ) : (
           <>

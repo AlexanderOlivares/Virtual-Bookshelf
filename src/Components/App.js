@@ -32,21 +32,15 @@ function App() {
       docRef
         .get()
         .then(doc => {
-          if (doc.exists) {
-            let data = doc.data();
-            setUsername(googleAuthUser.displayName || data.username);
-            setUser_UID(googleAuthUser.uid);
-            setIsLoggedIn(true);
-            setUserEmail(googleAuthUser.email);
-            console.log(googleAuthUser.uid + "is signed in");
-          } else {
-            // doc.data() will be undefined in this case
-            alert("Error logging in. Please try again");
-          }
+          let data = doc.data();
+          setUsername(googleAuthUser.displayName || data.username);
+          setUser_UID(googleAuthUser.uid);
+          setIsLoggedIn(true);
+          setUserEmail(googleAuthUser.email);
         })
         .catch(error => {
           alert(`${error}. Could not sign in. Please try again.`);
-          console.log("Error getting document:", error);
+          console.warn("Error getting document:", error);
         });
     } else {
       // successful sign out
@@ -104,6 +98,7 @@ function App() {
                     setUsername={setUsername}
                     setIsLoggedIn={setIsLoggedIn}
                     isLoggedIn={isLoggedIn}
+                    user_UID={user_UID}
                   />
                 </Route>
                 <Route exact path="/shelf/">

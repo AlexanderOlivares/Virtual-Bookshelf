@@ -70,16 +70,19 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
     )
       .then(res => {
         if (!res.ok) {
-          console.log("fetch didn't work", res);
+          alert("Error getting books from Google Books" + res);
+          console.warn("Error getting books from Google Books" + res);
         }
         if (res.ok) {
-          console.log("fetch worked");
           return res.json();
         }
       })
       .then(jsonRes => {
         let booksWithImageLinks = jsonRes.items.filter(
-          e => e.volumeInfo.imageLinks && e.volumeInfo.description
+          e =>
+            e.volumeInfo.imageLinks &&
+            e.volumeInfo.description &&
+            e.volumeInfo.authors
         );
         setGoogleBooksResults(booksWithImageLinks);
       })
@@ -105,7 +108,13 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
           .then(() => console.log("book deleted"))
           .catch(error => console.error("could not delete book" + error));
 
-        setList(list.filter(book => book.title !== book_ID));
+        setList(
+          list.filter(
+            book =>
+              book.title !== e.volumeInfo.title &&
+              book.description !== e.volumeInfo.description
+          )
+        );
       } else {
         book_ID
           .set({
@@ -134,6 +143,7 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
             description: e.volumeInfo.description,
           },
         ]);
+        console.log(list);
       }
     });
   }
@@ -163,7 +173,7 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
           </div>
           <div>
             <p>{modalTargetBook.volumeInfo.description}</p>
-            <p>{`by ${modalTargetBook.volumeInfo.authors}`}</p>
+            <p>{`by ${modalTargetBook.volumeInfo.authors.join(", ")}`}</p>
           </div>
           <div>
             <button onClick={() => toggleModal()}>close</button>
@@ -216,11 +226,9 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
                 </button>
                 {isLoggedIn && (
                   <button onClick={() => addOrRemoveFromList(e)}>
-                    {list.some(
-                      x =>
-                        x.title === e.volumeInfo.title &&
-                        x.thumbnail === e.volumeInfo.imageLinks.thumbnail
-                    ) ? (
+                    {list.filter(
+                      book => book.description === e.volumeInfo.description
+                    ).length ? (
                       <AiOutlineDelete />
                     ) : (
                       "add to shelf"
