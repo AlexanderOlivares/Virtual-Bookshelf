@@ -58,8 +58,6 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
     });
   }, []);
 
-  console.log(username);
-
   function handleChange(e) {
     setSearchInput(e.currentTarget.value);
   }

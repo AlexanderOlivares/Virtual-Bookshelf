@@ -34,7 +34,7 @@ const StyledHomeButtons = styled.button`
   padding: 5px;
 `;
 
-function Home({ isLoggedIn, username, user_UID, theme }) {
+function Home({ isLoggedIn, setIsLoggedIn, username, user_UID, theme }) {
   const NYT_API_KEY = process.env.REACT_APP_NYT_BESTSELLERS_API_KEY;
   modalStyles.content.background = theme.background;
 
@@ -153,12 +153,8 @@ function Home({ isLoggedIn, username, user_UID, theme }) {
   function handleGoogleSignin() {
     auth
       .signInWithPopup(google)
-      .then(result => {
-        return db.collection("users").doc(result.user.uid).set({
-          username: result.user.displayName,
-          email: result.user.email,
-          uid: result.user.uid,
-        });
+      .then(() => {
+        setIsLoggedIn(true);
       })
       .catch(error => {
         var errorCode = error.code;

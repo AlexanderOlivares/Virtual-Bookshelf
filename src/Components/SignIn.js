@@ -36,7 +36,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
     });
   }
 
-  function handleSubmit(e) {
+  function handleSignin(e) {
     e.preventDefault();
     const email = input.email;
     const password = input.password;
@@ -60,7 +60,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
       });
   }
 
-  function handleClick() {
+  function handleGoogleSignin() {
     auth
       .signInWithPopup(google)
       .then(() => {
@@ -70,7 +70,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
         var errorCode = error.code;
         var errorMessage = error.message;
         setIsLoggedIn(null);
-        alert(`${errorCode}${errorMessage}`);
+        alert(`Could not signin: ${errorCode}${errorMessage}`);
       });
   }
 
@@ -136,7 +136,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
             <FaBookReader size={100} style={{ margin: 30 }}></FaBookReader>
           </div>
           {/* { For signin purposes. Reusing signup styled coponent} */}
-          <StyledSignup key={formKey} onSubmit={handleSubmit}>
+          <StyledSignup key={formKey} onSubmit={handleSignin}>
             <StyledInput
               required
               name="email"
@@ -155,7 +155,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
             <StyledButton>sign in</StyledButton>
             <StyledP>or</StyledP>
           </StyledSignup>
-          <StyledGoogleButton name="googleSignIn" onClick={handleClick}>
+          <StyledGoogleButton name="googleSignIn" onClick={handleGoogleSignin}>
             {<FcGoogle size={25} />} Sign up with Google
           </StyledGoogleButton>
           <div>

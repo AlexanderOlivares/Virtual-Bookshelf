@@ -56,7 +56,14 @@ export const StyledCard = styled.div`
   text-align: center;
 `;
 
-function Signup({ username, setUsername, isLoggedIn, theme, user_UID }) {
+function Signup({
+  username,
+  setUsername,
+  isLoggedIn,
+  setIsLoggedIn,
+  theme,
+  user_UID,
+}) {
   modalStyles.content.background = theme.background;
 
   const [modal, setModal] = useState(false);
@@ -123,17 +130,13 @@ function Signup({ username, setUsername, isLoggedIn, theme, user_UID }) {
     setUsername(username);
     auth
       .signInWithPopup(google)
-      .then(result => {
-        console.log(result);
-        return db.collection("users").doc(result.user.uid).set({
-          username: result.user.displayName,
-          email: result.user.email,
-          uid: result.user.uid,
-        });
+      .then(() => {
+        setIsLoggedIn(true);
       })
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
+        setIsLoggedIn(null);
         alert(`Could not signup: ${errorCode}. ${errorMessage}`);
       });
   }

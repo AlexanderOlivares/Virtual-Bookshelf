@@ -29,19 +29,24 @@ function App() {
     if (googleAuthUser) {
       const docRef = db.collection("users").doc(`${googleAuthUser.uid}`);
 
+      setUser_UID(googleAuthUser.uid);
+      setIsLoggedIn(true);
+      setUserEmail(googleAuthUser.email);
+
       docRef
         .get()
         .then(doc => {
           if (doc.exists) {
             let data = doc.data();
-            console.log(data);
             setUsername(googleAuthUser.displayName || data.username);
-            setUser_UID(googleAuthUser.uid);
-            setIsLoggedIn(true);
-            setUserEmail(googleAuthUser.email);
           } else {
-            console.log("doc does not exist");
-            alert("Error occured while creating account. Plase try again.");
+            console.log(`New user: ${googleAuthUser.displayName} created`);
+            setUsername(googleAuthUser.displayName);
+            return db.collection("users").doc(googleAuthUser.uid).set({
+              username: googleAuthUser.displayName,
+              email: googleAuthUser.email,
+              uid: googleAuthUser.uid,
+            });
           }
         })
         .catch(error => {
@@ -76,6 +81,7 @@ function App() {
                     theme={theme}
                     username={username}
                     user_UID={user_UID}
+                    setIsLoggedIn={setIsLoggedIn}
                     isLoggedIn={isLoggedIn}
                   />
                 </Route>
