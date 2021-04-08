@@ -90,7 +90,7 @@ function Home({ isLoggedIn, setIsLoggedIn, username, user_UID, theme }) {
           .then(() => console.log("book deleted"))
           .catch(error => alert("could not delete book" + error));
 
-        setHomeList(homeList.filter(e => e.title !== book.title));
+        setHomeList(homeList.filter(item => item.title !== book.title));
       } else {
         book_ID
           .set({

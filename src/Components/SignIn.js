@@ -55,8 +55,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
       })
       .catch(error => {
         alert(`${error}. Could not sign in. Try again or reset your password.`);
-        console.log(error.code);
-        console.log(error.message);
+        console.log(`${error.code} ${error.message}`);
       });
   }
 

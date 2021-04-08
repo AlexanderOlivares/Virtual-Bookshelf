@@ -71,7 +71,6 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       .then(res => {
         if (!res.ok) {
           alert("Error getting books from Google Books" + res);
-          console.warn("Error getting books from Google Books" + res);
         }
         if (res.ok) {
           return res.json();
@@ -79,27 +78,27 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       })
       .then(jsonRes => {
         let booksWithImageLinks = jsonRes.items.filter(
-          e =>
-            e.volumeInfo.imageLinks &&
-            e.volumeInfo.description &&
-            e.volumeInfo.authors
+          book =>
+            book.volumeInfo.imageLinks &&
+            book.volumeInfo.description &&
+            book.volumeInfo.authors
         );
         setGoogleBooksResults(booksWithImageLinks);
       })
       .catch(error => {
-        console.log("error: ", error);
+        alert(`Error coult not fetch books ${error}`);
       });
 
     setFormKey(uuidv4());
   }
 
   // creates a shelf collection under the user document in firebase
-  function addOrRemoveFromList(e) {
+  function toggleFromList(bookToToggle) {
     const book_ID = db
       .collection("users")
       .doc(`${user_UID}`)
       .collection(`shelf`)
-      .doc(`${e.volumeInfo.title}`);
+      .doc(`${bookToToggle.volumeInfo.title}`);
 
     book_ID.get().then(docSnapshot => {
       if (docSnapshot.exists) {
@@ -111,17 +110,17 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
         setList(
           list.filter(
             book =>
-              book.title !== e.volumeInfo.title &&
-              book.description !== e.volumeInfo.description
+              book.title !== bookToToggle.volumeInfo.title &&
+              book.description !== bookToToggle.volumeInfo.description
           )
         );
       } else {
         book_ID
           .set({
-            title: e.volumeInfo.title,
-            author: e.volumeInfo.authors.join(", "),
-            thumbnail: e.volumeInfo.imageLinks.thumbnail,
-            description: e.volumeInfo.description,
+            title: bookToToggle.volumeInfo.title,
+            author: bookToToggle.volumeInfo.authors.join(", "),
+            thumbnail: bookToToggle.volumeInfo.imageLinks.thumbnail,
+            description: bookToToggle.volumeInfo.description,
           })
           .then(() => {
             console.log("book successfully saved");
@@ -137,10 +136,10 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
         setList(prev => [
           ...prev,
           {
-            title: e.volumeInfo.title,
-            author: e.volumeInfo.authors,
-            thumbnail: e.volumeInfo.imageLinks.thumbnail,
-            description: e.volumeInfo.description,
+            title: bookToToggle.volumeInfo.title,
+            author: bookToToggle.volumeInfo.authors,
+            thumbnail: bookToToggle.volumeInfo.imageLinks.thumbnail,
+            description: bookToToggle.volumeInfo.description,
           },
         ]);
       }
@@ -210,23 +209,24 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       </form>
       <StyledContainer>
         {googleBooksResults &&
-          googleBooksResults.map((e, index) => {
+          googleBooksResults.map((currentBook, index) => {
             return (
               <StyledBook key={uuidv4()}>
                 <img
                   width="128"
                   height="195"
-                  src={e.volumeInfo.imageLinks.thumbnail}
-                  alt={e.volumeInfo.title}
+                  src={currentBook.volumeInfo.imageLinks.thumbnail}
+                  alt={currentBook.volumeInfo.title}
                 ></img>
                 <br></br>
                 <button onClick={() => toggleModal(index)}>
                   {<BiInfoSquare />}
                 </button>
                 {isLoggedIn && (
-                  <button onClick={() => addOrRemoveFromList(e)}>
+                  <button onClick={() => toggleFromList(currentBook)}>
                     {list.filter(
-                      book => book.description === e.volumeInfo.description
+                      book =>
+                        book.description === currentBook.volumeInfo.description
                     ).length ? (
                       <AiOutlineDelete />
                     ) : (

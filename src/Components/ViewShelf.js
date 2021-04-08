@@ -108,12 +108,12 @@ function ViewShlef({ theme }) {
             <br></br>
           </>
         ) : (
-          list.map((e, index) => {
+          list.map((currentBook, index) => {
             return (
               <StyledBook key={uuidv4()}>
                 <img
-                  src={e.thumbnail_URL}
-                  alt={e.title}
+                  src={currentBook.thumbnail_URL}
+                  alt={currentBook.title}
                   width="128"
                   height="195"
                 ></img>

@@ -183,7 +183,6 @@ function Signup({
       .sendPasswordResetEmail(resetEmail)
       .then(function () {
         alert("check your email for reset instructions");
-        console.log("check your email for reset instructions");
         setModal(false);
       })
       .catch(function (error) {

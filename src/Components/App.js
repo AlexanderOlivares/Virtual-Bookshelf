@@ -40,7 +40,7 @@ function App() {
             let data = doc.data();
             setUsername(googleAuthUser.displayName || data.username);
           } else {
-            console.log(`New user: ${googleAuthUser.displayName} created`);
+            console.log(`New user: ${googleAuthUser.displayName} was created`);
             setUsername(googleAuthUser.displayName);
             return db.collection("users").doc(googleAuthUser.uid).set({
               username: googleAuthUser.displayName,

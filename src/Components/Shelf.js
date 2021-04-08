@@ -92,9 +92,9 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
     setModal(prev => !prev);
   }
 
-  function removeFromList(e) {
+  function removeFromList(bookToDelete) {
     const deleteConfirmed = window.confirm(
-      `Are you sure you want to delete ${e.title} from your shelf?`
+      `Are you sure you want to delete ${bookToDelete.title} from your shelf?`
     );
 
     if (deleteConfirmed) {
@@ -104,7 +104,7 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
         .collection("users")
         .doc(`${user_UID}`)
         .collection(`shelf`)
-        .doc(`${e.title}`);
+        .doc(`${bookToDelete.title}`);
 
       book_ID.get().then(docSnapshot => {
         if (docSnapshot.exists) {
@@ -134,7 +134,6 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
             error +
               "Could not send email. Double check the email address and try again."
           );
-          console.log(error.text);
         }
       );
 
@@ -231,12 +230,12 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
               <br></br>
             </>
           ) : (
-            list.map((e, index) => {
+            list.map((currentBook, index) => {
               return (
                 <StyledBook key={uuidv4()}>
                   <img
-                    src={e.thumbnail_URL}
-                    alt={e.title}
+                    src={currentBook.thumbnail_URL}
+                    alt={currentBook.title}
                     width="128"
                     height="195"
                   ></img>
@@ -245,7 +244,7 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
                     {<BiInfoSquare />}
                   </button>
                   {isLoggedIn && (
-                    <button onClick={() => removeFromList(e)}>
+                    <button onClick={() => removeFromList(currentBook)}>
                       {<AiOutlineDelete />}
                     </button>
                   )}
