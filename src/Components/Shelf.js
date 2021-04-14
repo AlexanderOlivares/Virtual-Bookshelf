@@ -208,16 +208,10 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
         )}
       </div>
       {loadingBooks ? (
-        <Loader
-          type="ThreeDots"
-          color="#00adb5"
-          height={50}
-          width={50}
-          timeout={9000}
-        />
+        <Loader type="ThreeDots" color="#00adb5" height={50} width={50} />
       ) : (
         <StyledContainer>
-          {!list.length && !loadingBooks ? (
+          {!list.length ? (
             <>
               <div style={{ margin: "0 auto", paddingTop: 40 }}>
                 <h4>

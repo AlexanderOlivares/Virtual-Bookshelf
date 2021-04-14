@@ -9,9 +9,11 @@ import { GiBookshelf } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
 import { modalStyles } from "./GlobalStyle";
+import Loader from "react-loader-spinner";
 
 function ViewShlef({ theme }) {
   modalStyles.content.background = theme.background;
+  const [loadingBooks, setLoadingBooks] = useState(true);
 
   const [list, setList] = useState([]);
   const [modal, setModal] = useState(false);
@@ -53,6 +55,14 @@ function ViewShlef({ theme }) {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (loadingBooks) {
+      setTimeout(() => {
+        setLoadingBooks(false);
+      }, 1000);
+    }
+  }, [loadingBooks]);
 
   function renderBookModal(modalIndex) {
     let modalTargetBook = list[modalIndex];
@@ -96,36 +106,40 @@ function ViewShlef({ theme }) {
       <div style={{ margin: "0 auto", padding: 30 }}>
         <GiBookshelf size={170} />
       </div>
-      <StyledContainer>
-        {!list.length ? (
-          <>
-            <div style={{ margin: "0 auto", paddingTop: 40 }}>
-              <h4>{"sharer's"} shelf is empty.</h4>
-              <button style={{ margin: 30 }}>
-                <Link to="/search">Search</Link>
-              </button>
-            </div>
-            <br></br>
-          </>
-        ) : (
-          list.map((currentBook, index) => {
-            return (
-              <StyledBook key={uuidv4()}>
-                <img
-                  src={currentBook.thumbnail_URL}
-                  alt={currentBook.title}
-                  width="128"
-                  height="195"
-                ></img>
-                <br></br>
-                <button onClick={() => toggleBookModal(index)}>
-                  {<BiInfoSquare />}
+      {loadingBooks ? (
+        <Loader type="ThreeDots" color="#00adb5" height={50} width={50} />
+      ) : (
+        <StyledContainer>
+          {!list.length ? (
+            <>
+              <div style={{ margin: "0 auto", paddingTop: 40 }}>
+                <h4>{"sharer's"} shelf is empty.</h4>
+                <button style={{ margin: 30 }}>
+                  <Link to="/search">Search</Link>
                 </button>
-              </StyledBook>
-            );
-          })
-        )}
-      </StyledContainer>
+              </div>
+              <br></br>
+            </>
+          ) : (
+            list.map((currentBook, index) => {
+              return (
+                <StyledBook key={uuidv4()}>
+                  <img
+                    src={currentBook.thumbnail_URL}
+                    alt={currentBook.title}
+                    width="128"
+                    height="195"
+                  ></img>
+                  <br></br>
+                  <button onClick={() => toggleBookModal(index)}>
+                    {<BiInfoSquare />}
+                  </button>
+                </StyledBook>
+              );
+            })
+          )}
+        </StyledContainer>
+      )}
       <div>{renderBookModal(modalIndex)}</div>
     </>
   );
