@@ -60,7 +60,7 @@ function ViewShlef({ theme }) {
     if (loadingBooks) {
       setTimeout(() => {
         setLoadingBooks(false);
-      }, 1000);
+      }, 2000);
     }
   }, [loadingBooks]);
 
