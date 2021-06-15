@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import { db } from "./firebase";
 import Modal from "react-modal";
 import styled from "styled-components";
-import { GiArchiveResearch } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { modalStyles } from "./GlobalStyle";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
+import { ImSearch } from "react-icons/im";
 
 export const StyledBook = styled.div`
   margin-top: 35px;
@@ -64,6 +64,13 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
 
   function handleSearch(e) {
     e.preventDefault();
+    console.log(searchInput);
+    if (!searchInput.length) {
+      alert(
+        "Your search box is empty. Type a book title or author to do a search."
+      );
+      return;
+    }
 
     fetch(
       `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=${API_KEY}&maxResults=40`
@@ -196,10 +203,13 @@ function Search({ user_UID, isLoggedIn, username, theme }) {
       )}
       <h1>Search Books</h1>
       {!googleBooksResults.length && (
-        <GiArchiveResearch size={170} style={{ margin: 20 }} />
+        <ImSearch size={170} style={{ margin: 20 }} />
       )}
       {!isLoggedIn && (
-        <h4>Sign in or create an account to add books to your shelf</h4>
+        <h4>
+          Search by title or author. Sign in or create an account to add books
+          to your shelf.
+        </h4>
       )}
       <form onSubmit={handleSearch} key={formKey}>
         <input value={searchInput} onChange={handleChange}></input>

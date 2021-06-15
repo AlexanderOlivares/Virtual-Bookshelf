@@ -2,10 +2,12 @@ import React from "react";
 import { auth } from "./firebase";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { GiBookshelf } from "react-icons/gi";
-import { GoSearch, GoHome } from "react-icons/go";
-import { FaSun, FaMoon } from "react-icons/fa";
 import { lightTheme, darkTheme } from "./Theme";
+import { ImBooks } from "react-icons/im";
+import { ImSearch } from "react-icons/im";
+import { ImHome3 } from "react-icons/im";
+import { MdBrightness2 } from "react-icons/md";
+import { MdBrightness7 } from "react-icons/md";
 
 const StyledNav = styled.nav`
   position: -webkit-sticky; /* Safari */
@@ -60,16 +62,20 @@ function Navbar({
   return (
     <StyledNav>
       <StyledNavItem>
-        <Link to="/">{<GoHome />}</Link>
+        <Link to="/">{<ImHome3 size={25} />}</Link>
       </StyledNavItem>
       <StyledNavItem>
-        <Link to="/shelf">{<GiBookshelf />}</Link>
+        <Link to="/shelf">{<ImBooks size={30} />}</Link>
       </StyledNavItem>
       <StyledNavItem onClick={handleThemeToggle}>
-        {theme === lightTheme ? <FaMoon /> : <FaSun />}
+        {theme === lightTheme ? (
+          <MdBrightness2 size={25} />
+        ) : (
+          <MdBrightness7 size={25} />
+        )}
       </StyledNavItem>
       <StyledNavItem>
-        <Link to="/search">{<GoSearch />}</Link>
+        <Link to="/search">{<ImSearch size={20} />}</Link>
       </StyledNavItem>
       {isLoggedIn ? (
         <StyledNavButton onClick={handleLogout}>

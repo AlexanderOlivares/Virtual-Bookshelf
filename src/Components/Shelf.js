@@ -8,11 +8,11 @@ import { modalStyles } from "./GlobalStyle";
 import Modal from "react-modal";
 import emailjs from "emailjs-com";
 import { Link } from "react-router-dom";
-import { GiBookshelf } from "react-icons/gi";
 import { StyledActiveUser } from "./Home";
 import { FiUserCheck } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineClose } from "react-icons/ai";
 import { BiInfoSquare } from "react-icons/bi";
+import { ImBooks } from "react-icons/im";
 import Loader from "react-loader-spinner";
 
 function Shelf({ user_UID, isLoggedIn, username, theme }) {
@@ -200,11 +200,11 @@ function Shelf({ user_UID, isLoggedIn, username, theme }) {
       )}
       <h1>My Shelf</h1>
       <div style={{ margin: "0 auto", padding: 30 }}>
-        <GiBookshelf size={170} />
+        <ImBooks size={170} />
       </div>
       <div>
         {isLoggedInAndList && (
-          <button onClick={() => setEmailModal(true)}>email shelf</button>
+          <button onClick={() => setEmailModal(true)}>Share shelf</button>
         )}
       </div>
       {loadingBooks ? (

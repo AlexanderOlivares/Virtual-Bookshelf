@@ -155,7 +155,7 @@ function SignIn({ isLoggedIn, setIsLoggedIn, username, theme }) {
             <StyledP>or</StyledP>
           </StyledSignup>
           <StyledGoogleButton name="googleSignIn" onClick={handleGoogleSignin}>
-            {<FcGoogle size={25} />} Sign up with Google
+            {<FcGoogle size={25} />} Sign in with Google
           </StyledGoogleButton>
           <div>
             <p>

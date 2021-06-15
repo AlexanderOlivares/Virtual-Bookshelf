@@ -7,12 +7,12 @@ import { db, auth, google } from "./firebase";
 import Modal from "react-modal";
 import { StyledGoogleButton } from "./Signup";
 import { FcGoogle } from "react-icons/fc";
-import { FaBookReader } from "react-icons/fa";
 import { FiUserCheck } from "react-icons/fi";
 import { BiInfoSquare } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { modalStyles } from "./GlobalStyle";
 import Loader from "react-loader-spinner";
+import { BiBookReader } from "react-icons/bi";
 Modal.setAppElement("#root");
 
 // username with checkmark when signed in
@@ -181,8 +181,8 @@ function Home({ isLoggedIn, setIsLoggedIn, username, user_UID, theme }) {
         </>
       ) : (
         <>
-          <h1>My Virtual Bookshelf</h1>
-          <FaBookReader size={140}></FaBookReader>
+          <h1>Virtual Bookshelf</h1>
+          <BiBookReader size={140}></BiBookReader>
           <StyledAbout>
             Miss the feeling of putting hardcovers and paperbacks on your
             bookshelf? If you listen to audiobooks or read e-books now you can
@@ -207,7 +207,10 @@ function Home({ isLoggedIn, setIsLoggedIn, username, user_UID, theme }) {
       )}
       <div>
         <h3>What have you read lately?</h3>
-        <h5 style={{ textDecoration: "underline" }}>NYT Best Sellers</h5>
+        <h5 style={{ textDecoration: "underline" }}>
+          {" "}
+          See what's popular! Checkout the NYT Best Sellers:
+        </h5>
         {!bestsellersList.length ? (
           <Loader
             type="ThreeDots"
