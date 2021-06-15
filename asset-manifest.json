@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/Virtual-Bookshelf/static/css/main.873772b0.chunk.css",
-    "main.js": "/Virtual-Bookshelf/static/js/main.0419a7b5.chunk.js",
-    "main.js.map": "/Virtual-Bookshelf/static/js/main.0419a7b5.chunk.js.map",
-    "runtime-main.js": "/Virtual-Bookshelf/static/js/runtime-main.c5ffda47.js",
-    "runtime-main.js.map": "/Virtual-Bookshelf/static/js/runtime-main.c5ffda47.js.map",
+    "main.js": "/Virtual-Bookshelf/static/js/main.b13f583d.chunk.js",
+    "main.js.map": "/Virtual-Bookshelf/static/js/main.b13f583d.chunk.js.map",
+    "runtime-main.js": "/Virtual-Bookshelf/static/js/runtime-main.cdf21d4f.js",
+    "runtime-main.js.map": "/Virtual-Bookshelf/static/js/runtime-main.cdf21d4f.js.map",
     "static/css/2.150d169a.chunk.css": "/Virtual-Bookshelf/static/css/2.150d169a.chunk.css",
-    "static/js/2.47dfd41a.chunk.js": "/Virtual-Bookshelf/static/js/2.47dfd41a.chunk.js",
-    "static/js/2.47dfd41a.chunk.js.map": "/Virtual-Bookshelf/static/js/2.47dfd41a.chunk.js.map",
-    "static/js/3.6aa112a5.chunk.js": "/Virtual-Bookshelf/static/js/3.6aa112a5.chunk.js",
-    "static/js/3.6aa112a5.chunk.js.map": "/Virtual-Bookshelf/static/js/3.6aa112a5.chunk.js.map",
+    "static/js/2.888e1f4e.chunk.js": "/Virtual-Bookshelf/static/js/2.888e1f4e.chunk.js",
+    "static/js/2.888e1f4e.chunk.js.map": "/Virtual-Bookshelf/static/js/2.888e1f4e.chunk.js.map",
+    "static/js/3.7c6f212e.chunk.js": "/Virtual-Bookshelf/static/js/3.7c6f212e.chunk.js",
+    "static/js/3.7c6f212e.chunk.js.map": "/Virtual-Bookshelf/static/js/3.7c6f212e.chunk.js.map",
     "index.html": "/Virtual-Bookshelf/index.html",
     "static/css/2.150d169a.chunk.css.map": "/Virtual-Bookshelf/static/css/2.150d169a.chunk.css.map",
     "static/css/main.873772b0.chunk.css.map": "/Virtual-Bookshelf/static/css/main.873772b0.chunk.css.map",
-    "static/js/2.47dfd41a.chunk.js.LICENSE.txt": "/Virtual-Bookshelf/static/js/2.47dfd41a.chunk.js.LICENSE.txt"
+    "static/js/2.888e1f4e.chunk.js.LICENSE.txt": "/Virtual-Bookshelf/static/js/2.888e1f4e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c5ffda47.js",
+    "static/js/runtime-main.cdf21d4f.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.47dfd41a.chunk.js",
+    "static/js/2.888e1f4e.chunk.js",
     "static/css/main.873772b0.chunk.css",
-    "static/js/main.0419a7b5.chunk.js"
+    "static/js/main.b13f583d.chunk.js"
   ]
 }
